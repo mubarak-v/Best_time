@@ -1,0 +1,17 @@
+<div class="col-md-3">
+    <div class="card-sl">
+        <div class="card-image">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+
+
+
+
+<!-- Corrected line -->
+        </div>
+        <a class="card-action" href="#"><i class="fa fa-heart"></i></a>
+        <div class="card-heading">{{ product.name }}</div> <!-- Removed '.url' from 'product.name' -->
+        <div class="card-text">{{ product.description }}</div>
+        <div class="card-text">${{ product.price }}</div>
+        <a href="#" class="card-button">Purchase</a>
+    </div>
+</div>

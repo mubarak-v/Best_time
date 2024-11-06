@@ -1,0 +1,456 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+{% load static %}
+
+    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #FF5722;
+            --secondary-color: #FBE9E7;
+            --accent-color: #6c5ce7;
+        }
+        
+        
+        
+        .cart-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        .product-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 5px;
+        }
+        
+        .quantity-btn {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        .remove-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .continue-shopping {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .checkout-btn {
+            background-color: var(--accent-color);
+            border: none;
+            padding: 12px;
+        }
+        .checkout-btn:hover{
+            background-color: #7a6bf0;
+        }
+        
+        .apply-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+        }
+        .apply-btn:hover{
+            background-color: #fa6335;
+        }
+        
+        .product-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .platform {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body style="background-color: white;">
+    <div style="margin-top: 5px;" class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="cart-container">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="mb-0">Shopping Cart</h4>
+                        <span class="text-muted">  {{ cart_items_length }}   Items</span>
+                    </div>
+                    
+                    <div class="cart-items">
+                        <!-- Item 1 -->
+                         
+                         {% for item in items  %}
+                            
+                         <div class="row mb-4 align-items-center">
+                            <div style="display: flex;justify-content: center;align-items:center;" class="col-md-2">
+                                <img style="height: 60px; object-fit: contain;" src="{{item.product.image.url}}" alt="{{item.product.name}}" class="{{item.product.name}}">
+                            </div>
+                            <div class="col-md-4">
+                                <h6 class="product-title"> {{item.product.name}} </h6>
+                                <p class="platform mb-0"> {{item.product.brand}}  </p>
+                                <form action="{% url 'delete_cart_product' item.product.product_id %}">
+                                    {% csrf_token %}
+                                    <button  class="remove-link btn" type="submit"> Remove</button>
+                                </form>
+                                
+                                
+                            </div>
+                            <div class="col-md-3">
+                                <div class="d-flex align-items-center justify-content-center gap-2">
+                                    {% if item.product.product_id %}
+                                        <!-- Decrease Quantity Button -->
+                                        <form method="post" action="{% url 'add_cart' item.product.product_id 'Decrease' %}" class="d-inline">
+                                            {% csrf_token %}
+                                            <button type="submit" class="quantity-btn btn btn-outline-secondary btn-sm">-</button>
+                                        </form>
+                            
+                                        <!-- Display Current Quantity -->
+                                        <h6 class="quantity-input mx-2 mb-0">{{ item.quantity }}</h6>
+                            
+                                        <!-- Increase Quantity Button -->
+                                        <form method="post" action="{% url 'add_cart' item.product.product_id 'Increase' %}" class="d-inline">
+                                            {% csrf_token %}
+                                            <button type="submit" class="quantity-btn btn btn-outline-secondary btn-sm">+</button>
+                                        </form>
+                                    {% else %}
+                                        <p>Error: Product ID is missing</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="col-md-3 text-end">
+                                <h6 class="mb-0"> {{item.product.price }} </h6>
+                                <h6 style="margin-top: 5px;">Subtotal ({{item.quantity}} items)</h6>
+                                <h6  class="mb-0"> {{item.total_price }} </h6>
+                           
+                           
+                            </div>
+                            
+                            
+                                
+                        </div>
+                        {% empty %}
+      <p>Cart is empty.</p>
+                         {% endfor %}
+                            
+                        
+                       
+
+                       
+
+                       
+                    </div>
+                    
+                    <a href="{% url 'home'%}" class="continue-shopping">← Continue Shopping</a>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="cart-container">
+                    <h5 class="mb-4">Order Summary</h5>
+                    
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>ITEMS {{ cart_items_length }}</span>
+                        <h3>Total  Price: ₹
+                            {{total_price}} </h3>
+                    </div>
+                    
+                    
+
+                    
+                    <div class="mb-4">
+                        <label class="form-label">SHIPPING</label>
+                        <select class="form-select">
+                            <option>Standard Delivery - ₹ 40.00</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label">PROMO CODE</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter your code">
+                            <button class="apply-btn">APPLY</button>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mb-4">
+                        <span class="fw-bold">TOTAL COST</span>
+                        <span class="fw-bold"> ₹ {{total_with_shipping}}                    </span>
+                    </div>
+                    
+                    <button onclick="openPaymentPopup()" class=" checkout-btn text-white w-100">CHECKOUT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .payment-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .payment-container {
+            background: white;
+            max-width: 500px;
+            margin: 50px auto;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .payment-method {
+            border: 1px solid #ddd;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .payment-method.active {
+            border-color: #0d6efd;
+            background-color: #f8f9fa;
+        }
+
+        .payment-method img {
+            height: 20px;
+            object-fit: contain;
+        }
+
+        .card-icons {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .card-icons img {
+            height: 20px;
+            margin-left: 5px;
+            margin-top: -40px !important;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .clear-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 12px;
+        }
+
+        .pay-button {
+            background-color: #0d6efd;
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+    
+
+    <!-- Payment Popup -->
+    <div class="payment-popup" id="paymentPopup">
+        <div style=" height: 500px; overflow: scroll;" class="payment-container">
+            <div class="payment-methods">
+                <div class="payment-method active">
+                    <i class="bi bi-credit-card-2-back"></i>
+                    <span>Card</span>
+                </div>
+                <div class="payment-method">
+                    <i class="bi bi-apple"></i>
+                    <span>Apple</span>
+                </div>
+                <div class="payment-method">
+                    <i class="bi bi-google"></i>
+                    <span>Google</span>
+                </div>
+                
+            </div>
+
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label>Email address</label>
+                    <input type="email" class="form-control" placeholder="email@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Card number</label>
+                    <input type="text" class="form-control" placeholder="1234 1234 1234 1234" required>
+                    <div  class="card-icons">
+                        <img  src="{%  static 'card_images/visa card.jpg' %}  " alt="Visa">
+                        <img  src="{%  static 'card_images/master card.png' %}" alt="Mastercard">
+                        <img  src="{%  static 'card_images/skrill card.png' %}" alt="Skrill">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Expiration date</label>
+                            <input type="text" class="form-control" placeholder="MM/YY" required>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Security code</label>
+                            <input type="text" class="form-control" placeholder="123" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Cardholder name</label>
+                    <input type="text" class="form-control" placeholder="Name on card" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Country</label>
+                    <select class="form-control">
+                        <option> India</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" class="form-control" placeholder="Street address" required>
+                    <button type="button" class="clear-btn">Clear</button>
+                </div>
+
+                <div class="row">
+                   
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>ZIP code</label>
+                            <input type="text" class="form-control" placeholder="12345" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-3 border-top">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Total</span>
+                        <span> {{total_with_shipping}} </span>
+                    </div>
+                    <button type="submit" class="pay-button">Pay ₹{{total_with_shipping}} </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Open payment popup
+        function openPaymentPopup() {
+            document.getElementById('paymentPopup').style.display = 'block';
+        }
+
+        // Close payment popup when clicking outside
+        document.getElementById('paymentPopup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        });
+
+        // Payment method selection
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', function() {
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Clear address button
+        document.querySelector('.clear-btn').addEventListener('click', function() {
+            this.previousElementSibling.value = '';
+        });
+
+        // Form submission
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add your payment processing logic here
+            console.log('Processing payment...');
+        });
+
+        // Card number formatting
+        document.querySelector('input[placeholder="1234 1234 1234 1234"]').addEventListener('input', function(e) {
+            let value = this.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = '';
+            for(let i = 0; i < value.length; i++) {
+                if(i > 0 && i % 4 === 0) {
+                    formattedValue += ' ';
+                }
+                formattedValue += value[i];
+            }
+            this.value = formattedValue.substring(0, 19);
+        });
+
+        // Expiration date formatting
+        document.querySelector('input[placeholder="MM/YY"]').addEventListener('input', function(e) {
+            let value = this.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0,2) + '/' + value.substring(2);
+            }
+            this.value = value.substring(0, 5);
+        });
+    </script>
+
+</html>
+</body><!-- cart_view.html -->
+
+</html>
+{% endblock content %}

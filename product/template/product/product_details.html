@@ -1,97 +1,98 @@
-{% extends 'base.html' %}
-
-{% block content %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Page</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Custom styles */
-        .product-page {
-            padding: 20px;
-        }
-        .product-image {
-            max-width: 100%;
-            border-radius: 8px;
-        }
-        .back-link {
-            color: #555;
-            font-size: 0.9rem;
-        }
-        .product-title {
-            font-size: 1.75rem;
-            font-weight: bold;
-        }
-        .price {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-        .options-label {
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        .rating {
-            color: #ffc107;
-            font-size: 0.9rem;
-        }
-        .color-options input {
-            margin-right: 5px;
-        }
-        .product-addons {
-            font-size: 0.9rem;
-        }
-        /* Brand Name */
-.brand-name {
-    font-family: 'Poppins', sans-serif;
+{% extends 'base.html' %} {% block content %}
+<link
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  rel="stylesheet"
+/>
+
+<style>
+  /* Custom styles */
+  .product-page {
+    padding: 20px;
+  }
+  .product-image {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+  .back-link {
+    color: #555;
+    font-size: 0.9rem;
+  }
+  .product-title {
+    font-size: 1.75rem;
+    font-weight: bold;
+  }
+  .price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  .options-label {
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  .rating {
+    color: #ffc107;
+    font-size: 0.9rem;
+  }
+  .color-options input {
+    margin-right: 5px;
+  }
+  .product-addons {
+    font-size: 0.9rem;
+  }
+  /* Brand Name */
+  .brand-name {
+    font-family: "Poppins", sans-serif;
     font-size: 18px;
     font-weight: 600;
     color: #111;
-}
+  }
 
-/* Product Description */
-.product-description {
-    font-family: 'Roboto', sans-serif;
+  /* Product Description */
+  .product-description {
+    font-family: "Roboto", sans-serif;
     font-size: 16px;
     color: #333;
-}
+  }
 
-/* Special Features */
-.special-features {
-    font-family: 'Montserrat', sans-serif;
+  /* Special Features */
+  .special-features {
+    font-family: "Montserrat", sans-serif;
     font-size: 18px;
     font-weight: 500;
     color: #555;
-}
+  }
 
-/* Battery Capacity and Technical Specs */
-.battery-capacity {
-    font-family: 'Roboto Mono', monospace;
+  /* Battery Capacity and Technical Specs */
+  .battery-capacity {
+    font-family: "Roboto Mono", monospace;
     font-size: 16px;
     color: #666;
-}
-   /* Popup container */
-   .popup {
+  }
+  /* Popup container */
+  .popup {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
-    background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+    background-color: rgba(
+      0,
+      0,
+      0,
+      0.5
+    ); /* Black background with transparency */
     z-index: 1000; /* Sit on top */
-}
+  }
 
-/* Popup content */
-.popup-content {
+  /* Popup content */
+  .popup-content {
     background-color: white;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
@@ -99,164 +100,170 @@
     width: 80%; /* Could be more or less, depending on screen size */
     max-width: 500px; /* Maximum width */
     text-align: center; /* Center text */
-}
+  }
 
-.close-btn {
+  .close-btn {
     background-color: #007bff;
     color: white;
     border: none;
     padding: 10px 15px;
     cursor: pointer;
-}
-    </style>
-</head>
-<body>
+  }
+</style>
 
-    
-    {% for product in  product_details %}
-        
-    <div class="container product-page">
-        <!-- Back Link -->
-        <a onclick="window.history.back()" style="font-size:15px;" href="#" class="back-link">< Back </a>
-    
-        <div class="row mt-3">
-            <!-- Product Image -->
-            <div style="display: flex;justify-content: center;align-items: center;height: 350px; object-fit: contain;" class="col-md-6">
-                <img src="{{product.image.url}}" alt="Product Image" class="product-image">
-            </div>
-    
-            <!-- Product Details -->
-            <div class="col-md-6">
-                <div class="product-title">  {{product.name}} </div>
-                <p class="product-description">  Description: {{product.description}} </p>
-                <p class="brand-name"> Brand: {{product.brand}}  </p>
-                <p class="special-features"> Special Feature: {{product.special_feature}}  </p>
-                <p class="special-features"> Battery Capacity: {{product.battery_capacity}}  </p>
+{% for product in product_details %}
 
-                <!-- Add to Cart Section -->
-                <div class="mt-4 d-flex justify-content-between align-items-center">
-                   
-                    <span class="price">₹   {{product.price}}   </span>
-                    <form action="{% url 'add_cart' product.product_id 'Increase' %}">
-                        {% csrf_token %}
-                        <button class="btn btn-primary"> Add to Cart</button>
-                </form>
-                    
-                </div>
-    
-                <!-- Reviews Section -->
-                <div class="container text-center" style="margin-top: 50px;">
-                    <button id="showPopup" class="btn btn-primary">Write a Review</button>
-                </div>
-            
-                <!-- The Popup -->
-                <div id="myPopup" class="popup">
-                    <div class="popup-content">
-                        <h2>Write a Review</h2>
-                        <form action="" method="post" id="reviewForm">
-                            {% csrf_token %}
-                            {{ reviewForm.as_div }}
-                            <button type="submit" class="btn btn-danger">Submit</button>
-                        </form>
-                        <button class="close-btn" id="closePopup">Cancel</button>
-                    </div>
-                </div>
+<div class="container product-page">
+  <!-- Back Link -->
+  <a
+    onclick="window.history.back()"
+    style="font-size: 15px"
+    href="#"
+    class="back-link"
+    >< Back
+  </a>
 
-                <!-- Include additional content like reviews here -->
-                <div class="mt-4">
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Reviews</a>
-                            <div id="reviews-container">
-                                {% for review in Reviews %}
-                                    {% if forloop.counter <= 2 %}
-                                        <div class="review">
-                                            <p><strong>Review:</strong> {{ review.comment }}</p>
-                                            <p><strong>Rating:</strong> {{ review.rating }} / 5</p>
-                                            <p><strong>Reviewer:</strong> {{ review.reviewer_name }}</p>
-                                            <p><strong>Date:</strong> {{ review.created_at }}</p>
-                                            <p>---------------------------------------------------</p>
-                                        </div>
-                                    {% else %}
-                                        <div class="review additional-review" style="display: none;">
-                                            <p><strong>Review:</strong> {{ review.comment }}</p>
-                                            <p><strong>Rating:</strong> {{ review.rating }} / 5</p>
-                                            <p><strong>Reviewer:</strong> {{ review.reviewer_name }}</p>
-                                            <p><strong>Date:</strong> {{ review.created_at }}</p>
-                                            <p>---------------------------------------------------</p>
-                                        </div>
-                                    {% endif %}
-                                {% empty %}
-                                    <p>No reviews yet.</p>
-                                {% endfor %}
-                            </div>
-                            {% if Reviews|length > 2 %}
-                                <button id="more-reviews-btn" class="btn btn-link">Show More</button>
-                            {% endif %}
-                        </li>
-                    </ul>
-                </div>
-
-                <script>
-                    // Show more reviews functionality
-                    const moreReviewsBtn = document.getElementById("more-reviews-btn");
-                    if (moreReviewsBtn) {
-                        moreReviewsBtn.addEventListener("click", function() {
-                            const additionalReviews = document.querySelectorAll(".additional-review");
-                            additionalReviews.forEach(review => review.style.display = "block");
-                            this.style.display = "none";
-                        });
-                    }
-                
-                    // Get the popup and buttons
-                    const popup = document.getElementById("myPopup");
-                    const showPopupBtn = document.getElementById("showPopup");
-                    const closeBtn = document.getElementById("closePopup");
-                    const reviewForm = document.getElementById("reviewForm");
-                
-                    // When the user clicks the "Leave a Review" button, open the popup
-                    showPopupBtn.onclick = function() {
-                        popup.style.display = "block";
-                    }
-                
-                    // When the user clicks on the "Cancel" button, close the popup without submitting
-                    closeBtn.onclick = function(event) {
-                        event.preventDefault();  // Prevent any form submission or unwanted actions
-                        popup.style.display = "none";
-                        reviewForm.reset();  // Clear the form for next use
-                    }
-                
-                    // Close the popup when clicking outside of the popup content
-                    window.onclick = function(event) {
-                        if (event.target === popup) {
-                            popup.style.display = "none";
-                        }
-                    }
-                
-                    // Clear the form after submission
-                    reviewForm.onsubmit = function() {
-                        setTimeout(() => {
-                            popup.style.display = "none";  // Close popup after submission
-                            reviewForm.reset();  // Reset the form for the next time it’s opened
-                        }, 0);
-                    }
-                </script>
-                
-
-            </div>
-        </div>
-    
+  <div class="row mt-3">
+    <!-- Product Image -->
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 350px;
+        object-fit: contain;
+      "
+      class="col-md-6"
+    >
+      <img
+        src="{{product.image.url}}"
+        alt="Product Image"
+        class="product-image"
+      />
     </div>
 
-    {% endfor %}
-        
-<!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Product Details -->
+    <div class="col-md-6">
+      <div class="product-title">{{product.name}}</div>
+      <p class="product-description">Description: {{product.description}}</p>
+      <p class="brand-name">Brand: {{product.brand}}</p>
+      <p class="special-features">
+        Special Feature: {{product.special_feature}}
+      </p>
+      <p class="special-features">
+        Battery Capacity: {{product.battery_capacity}}
+      </p>
 
-</body>
-</html>
+      <!-- Add to Cart Section -->
+      <div class="mt-4 d-flex justify-content-between align-items-center">
+        <span class="price">₹ {{product.price}} </span>
+        <form action="{% url 'add_cart' product.product_id 'Increase' %}">
+          {% csrf_token %}
+          <button class="btn btn-primary">Add to Cart</button>
+        </form>
+      </div>
 
-{% endblock content %}
+      <!-- Reviews Section -->
+      <div class="container text-center" style="margin-top: 50px">
+        <button id="showPopup" class="btn btn-primary">Write a Review</button>
+      </div>
+
+      <!-- The Popup -->
+      <div id="myPopup" class="popup">
+        <div class="popup-content">
+          <h2>Write a Review</h2>
+          <form action="" method="post" id="reviewForm">
+            {% csrf_token %} {{ reviewForm.as_div }}
+            <button type="submit" class="btn btn-danger">Submit</button>
+          </form>
+          <button class="close-btn" id="closePopup">Cancel</button>
+        </div>
+      </div>
+
+      <!-- Include additional content like reviews here -->
+      <div class="mt-4">
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">Reviews</a>
+            <div id="reviews-container">
+              {% for review in Reviews %} {% if forloop.counter <= 2 %}
+              <div class="review">
+                <p><strong>Review:</strong> {{ review.comment }}</p>
+                <p><strong>Rating:</strong> {{ review.rating }} / 5</p>
+                <p><strong>Reviewer:</strong> {{ review.reviewer_name }}</p>
+                <p><strong>Date:</strong> {{ review.created_at }}</p>
+                <p>---------------------------------------------------</p>
+              </div>
+              {% else %}
+              <div class="review additional-review" style="display: none">
+                <p><strong>Review:</strong> {{ review.comment }}</p>
+                <p><strong>Rating:</strong> {{ review.rating }} / 5</p>
+                <p><strong>Reviewer:</strong> {{ review.reviewer_name }}</p>
+                <p><strong>Date:</strong> {{ review.created_at }}</p>
+                <p>---------------------------------------------------</p>
+              </div>
+              {% endif %} {% empty %}
+              <p>No reviews yet.</p>
+              {% endfor %}
+            </div>
+            {% if Reviews|length > 2 %}
+            <button id="more-reviews-btn" class="btn btn-link">
+              Show More
+            </button>
+            {% endif %}
+          </li>
+        </ul>
+      </div>
+
+      <script>
+        // Show more reviews functionality
+        const moreReviewsBtn = document.getElementById("more-reviews-btn");
+        if (moreReviewsBtn) {
+          moreReviewsBtn.addEventListener("click", function () {
+            const additionalReviews =
+              document.querySelectorAll(".additional-review");
+            additionalReviews.forEach(
+              (review) => (review.style.display = "block")
+            );
+            this.style.display = "none";
+          });
+        }
+
+        // Get the popup and buttons
+        const popup = document.getElementById("myPopup");
+        const showPopupBtn = document.getElementById("showPopup");
+        const closeBtn = document.getElementById("closePopup");
+        const reviewForm = document.getElementById("reviewForm");
+
+        // When the user clicks the "Leave a Review" button, open the popup
+        showPopupBtn.onclick = function () {
+          popup.style.display = "block";
+        };
+
+        // When the user clicks on the "Cancel" button, close the popup without submitting
+        closeBtn.onclick = function (event) {
+          event.preventDefault(); // Prevent any form submission or unwanted actions
+          popup.style.display = "none";
+          reviewForm.reset(); // Clear the form for next use
+        };
+
+        // Close the popup when clicking outside of the popup content
+        window.onclick = function (event) {
+          if (event.target === popup) {
+            popup.style.display = "none";
+          }
+        };
+
+        // Clear the form after submission
+        reviewForm.onsubmit = function () {
+          setTimeout(() => {
+            popup.style.display = "none"; // Close popup after submission
+            reviewForm.reset(); // Reset the form for the next time it’s opened
+          }, 0);
+        };
+      </script>
+    </div>
+  </div>
+</div>
+
+{% endfor %} {% endblock content %}

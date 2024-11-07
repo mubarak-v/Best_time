@@ -98,7 +98,7 @@ DATABASES = {
 
 # settings.py
 # settings.py
-LOGIN_URL = '/account/login_as_seller'  # This should match the login URL pattern
+LOGIN_URL = 'account/login/?user_type=buyer'  # This should match the login URL pattern
 LOGIN_REDIRECT_URL = '/products/'  # Where to redirect after login
 LOGOUT_REDIRECT_URL = '/'  # Optional: Redirect after logout
 

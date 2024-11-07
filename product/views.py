@@ -11,10 +11,21 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 # python django inheritance
 
 def products(request):
+    products = Product.objects.all()
+    # Filter products where brand is either "Fossil" or "Amazfit"
+    brand1 = request.GET.get('brand1')
+    brand2 =  request.GET.get('brand2')
+    print(brand1, brand2)
+    if brand1 and brand2:
+        filtered_products = Product.objects.filter(brand__in=[brand1,brand2])
+    else:
+        filtered_products = Product.objects.order_by('-price')[:5]
+
+    
 
     context ={
         
-        'products': Product.objects.all()  
+        'products': filtered_products 
     }
     return render(request,"index.html" , context)
 
@@ -166,3 +177,7 @@ def delete_cart_product(request, product_id):
     cart_item.delete()  
 
     return redirect('cart_view')
+
+def productList(request):
+    products = Product.objects.all()
+    return render(request, 'product_list.html', {'products': products})

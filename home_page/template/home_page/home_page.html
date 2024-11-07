@@ -1,4 +1,277 @@
+<!DOCTYPE html>
 {% extends 'base.html' %} {% load static %} {% block content %}
+<style>
+  a {
+    text-decoration: none;
+  }
+
+  .card-sl {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  .card-image img {
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 8px 8px 0px 0;
+  }
+
+  .card-action {
+    position: relative;
+    float: right;
+    margin-top: -25px;
+    margin-right: 20px;
+    z-index: 2;
+    color: #e26d5c;
+    background: #fff;
+    border-radius: 100%;
+    padding: 15px;
+    font-size: 15px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  .card-action:hover {
+    color: #fff;
+    background: #e26d5c;
+    -webkit-animation: pulse 1.5s infinite;
+  }
+
+  .card-heading {
+    font-size: 18px;
+    font-weight: bold;
+    background: #fff;
+    padding: 10px 15px;
+  }
+
+  .card-text {
+    padding: 10px 15px;
+    background: #fff;
+    font-size: 14px;
+    color: #636262;
+  }
+
+  .card-button {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    width: 100%;
+    background-color: #ff5722;
+    color: #fff;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .card-button:hover {
+    text-decoration: none;
+    background-color: #fd6537;
+    color: #fff;
+  }
+
+  @keyframes pulse {
+    0% {
+      -moz-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+      -webkit-transform: scale(0.9);
+      transform: scale(0.9);
+    }
+
+    70% {
+      -moz-transform: scale(1);
+      -ms-transform: scale(1);
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      box-shadow: 0 0 0 50px rgba(90, 153, 212, 0);
+    }
+
+    100% {
+      -moz-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+      -webkit-transform: scale(0.9);
+      transform: scale(0.9);
+      box-shadow: 0 0 0 0 rgba(90, 153, 212, 0);
+    }
+  }
+
+  .filter-container {
+    max-width: 300px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .filter-title {
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  .filter-item {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    padding: 8px 0;
+    color: #333;
+  }
+
+  .filter-item-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    display: inline-block;
+    background-color: #ccc; /* Placeholder for icon */
+    border-radius: 50%;
+  }
+
+  .filter-item span {
+    color: #555;
+  }
+</style>
+<link
+  href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+  rel="stylesheet"
+/>
+<title>Hexashop Ecommerce HTML CSS Template</title>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href=" {%  static 'home_css/bootstrap.min.css' %}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'home_css/font-awesome.css' %}"
+/>
+<link
+  rel="stylesheet"
+  href=" {% static 'home_css/templatemo-hexashop.css' %} "
+/>
+<link rel="stylesheet" href=" {% static 'home_css/owl-carousel.css' %} " />
+<link rel="stylesheet" href="{% static 'home_css/lightbox.css'  %}" />
+<div class="main-banner" id="top">
+  <div style="margin-top: -120px !important;" class="container-fluid">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="left-content">
+          <div class="thumb">
+            <div class="inner-content">
+              <h4> Smart Watch</h4>
+              <span> Your Time, Your Style </span>
+              <div class="main-border-button">
+                <a href=" {% url 'products'%}?brand1=fossil&brand2=amazfit ">Purchase Now!</a>
+              </div>
+            </div>
+            <img src=" {% static 'images/baner-right-image-01 02 (1).jpg' %} " alt="" />
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="right-content">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="right-first-image">
+                <div class="thumb">
+                  <div class="inner-content">
+                    <h4> Smart Watch </h4>
+                    <span>Best Smart Watch For All</span>
+                  </div>
+                  <div class="hover-content">
+                    <div class="inner">
+                      <h4> Smart Watch </h4>
+                      <p>
+                        Real-time heart rate, blood oxygen, and sleep quality monitoring to keep you informed and proactive
+                      </p>
+                      <div class="main-border-button">
+                        <a href="{% url 'products'%}?brand1=fossil&brand2=amazfit ">Discover More</a>
+                      </div>
+                    </div>
+                  </div>
+                  <img
+                    style="height: 280px; width: 310px; object-fit: fill"
+                    src=" {%  static 'images/baner-right-image-01.jpeg' %} "
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="right-first-image">
+                <div class="thumb">
+                  <div class="inner-content">
+                    <h4>Men</h4>
+                    <span>Best  Watches For Men</span>
+                  </div>
+                  <div class="hover-content">
+                    <div class="inner">
+                      <h4>Men</h4>
+                      <p>
+                        Precision-engineered for men who appreciate the finer things
+                      </p>
+                      <div class="main-border-button">
+                        <a href="{% url 'products'%}?brand1=tagheuer&brand2=xiaomi">Discover More</a>
+                      </div>
+                    </div>
+                  </div>
+                  <img
+                    style="height: 280px; width: 310px; object-fit: fill"
+                    src=" {%   static 'images/baner-right-image-02.jpg' %} "
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="right-first-image">
+                <div class="thumb">
+                  <div class="inner-content">
+                    <h4> Brand Watch  </h4>
+                    <span>Brand new  Watches</span>
+                  </div>
+                  <div class="hover-content">
+                    <div class="inner">
+                      <h4>Brand Watch </h4>
+                      <p>
+                        A classic look that complements any attire, from casual to formal.
+                      </p>
+                      <div class="main-border-button">
+                        <a href="{% url 'products'%}">Discover More</a>
+                      </div>
+                    </div>
+                  </div>
+                  <img
+                    style="height: 280px; width: 310px; object-fit: fill"
+                    src=" {% static 'images/baner-right-image-03.jpg' %} "
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="right-first-image">
+                <div class="thumb">
+                  <div class="inner-content">
+                    <h4>Premium Watch</h4>
+                    <span>Best Trend Premium Watches </span>
+                  </div>
+                  <div class="hover-content">
+                    <div class="inner">
+                      <h4>Premium Watch</h4>
+                      <p>
+                        Created with the utmost attention to detail, using only the finest materials.
+                      </p>
+                      <div class="main-border-button">
+                        <a href="{% url 'products'%}">Discover More</a>
+                      </div>
+                    </div>
+                  </div>
+                  <img
+                    style="height: 280px; width: 310px; object-fit: fill"
+                    src=" {% static 'images/baner-right-image-04.jpg' %}  "
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <style>
   a {
     text-decoration: none;
@@ -132,7 +405,7 @@
         {% for product in products %}
         <div style="margin-top: 20px" class="col-md-3">
           <a
-            href="products/{{product.product_id}}"
+            href=" {% url 'products_details' product.product_id %}  "
             style="text-decoration: none; color: inherit"
           >
             <div class="card-sl">
@@ -157,7 +430,7 @@
               <div style="height: 50px; overflow: hidden" class="card-text">
                 {{ product.description }}
               </div>
-              <div class="card-text">${{ product.price }}</div>
+              <div class="card-text">₹ {{ product.price }}</div>
               <form
                 action="{% url 'add_cart' product.product_id 'Increase' %}"
                 method="post"
@@ -175,5 +448,27 @@
     </div>
   </a>
 </div>
+
+<script src=" {% static 'home_js/jquery-2.1.0.min.js' %} "></script>
+<script src=" {% static 'home_js/popper.js' % } "></script>
+<script src="{% static 'home_js/bootstrap.min.js' %}"></script>
+<script src=" {%  static 'home_js/owl-carousel.js'  %} "></script>
+<script src=" {%  static 'home_js/custom.js'  %} "></script>
+<script>
+  $(function () {
+    var selectedClass = "";
+    $("p").click(function () {
+      selectedClass = $(this).attr("data-rel");
+      $("#portfolio").fadeTo(50, 0.1);
+      $("#portfolio div")
+        .not("." + selectedClass)
+        .fadeOut();
+      setTimeout(function () {
+        $("." + selectedClass).fadeIn();
+        $("#portfolio").fadeTo(50, 1);
+      }, 500);
+    });
+  });
+</script>
 
 {% endblock content %}

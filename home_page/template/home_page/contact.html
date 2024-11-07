@@ -1,0 +1,90 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+<style>
+  .orange-icon {
+    color: #ff6b00;
+  }
+  .btn-orange {
+    background-color: #ff6b00;
+    color: #fff;
+  }
+  .btn-orange:hover {
+    background-color: #cc5500;
+    color: #fff;
+  }
+</style>
+
+<div class="container-fluid">
+  <div class="row py-5">
+    <div class="col-12 text-center mb-4">
+      <h1>Contact Us</h1>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="d-flex align-items-center mb-3">
+        <img
+          src="{% static 'images/phone.png' %}"
+          alt="Phone"
+          class="orange-icon me-3"
+          style="width: 80px; height: 80px; object-fit: contain"
+        />
+        <div>
+          <h5>BY PHONE</h5>
+          <p class="mb-0">(Monday to Friday, 9am to 6pm PST)</p>
+          <p class="mb-0">North America Toll-Free: 1-877-930-7483</p>
+          <p class="mb-0">International: 1-604-637-0780</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="d-flex align-items-center mb-3">
+        <img
+          src=" {% static 'images/new case.png' %} "
+          alt="New Case"
+          class="orange-icon me-3"
+          style="width: 80px; height: 80px; object-fit: contain"
+        />
+        <div>
+          <h5>START A NEW CASE</h5>
+          <p>
+            Just send us your questions or concerns by starting a new case and
+            we will give you the help you need.
+          </p>
+          <a href="#" class="btn btn-orange">START HERE</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="d-flex align-items-center mb-3">
+        <img
+          src=" {%  static 'images/chat.png' %} "
+          alt="Live Chat"
+          class="orange-icon me-3"
+          style="width: 80px; height: 80px; object-fit: contain"
+        />
+        <div>
+          <h5>LIVE CHAT</h5>
+          <p>Chat with a member of our in-house team.</p>
+          <a href="#" class="btn btn-orange">START CHAT</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row py-5 bg-light">
+    <div class="col-12 text-center mb-4">
+      <h2>Track a Case</h2>
+      <p>View your thread of messages with our support team.</p>
+    </div>
+    <div class="col-md-6 offset-md-3">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Case Number"
+          aria-label="Case Number"
+        />
+        <button class="btn btn-orange" type="button">Track</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

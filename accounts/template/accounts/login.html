@@ -1,15 +1,139 @@
-{% extends "base.html" %}
+{% extends 'base.html' %} {% block content %}
+<style>
+  .btn-custom {
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    transition: all 0.3s;
+  }
+  .btn-custom:hover {
+    background-color: #f4511e;
+    color: white;
+  }
+  .btn-custom.active {
+    background-color: #bf360c;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: scale(0.98);
+  }
+  .form-control:focus {
+    border-color: #ff5722;
+    box-shadow: 0 0 0 0.2rem rgba(255, 87, 34, 0.25);
+  }
+  .login-type-btn {
+    width: 150px;
+  }
+  .card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: -80px !important;
+  }
+  #loginType {
+    font-weight: bold;
+    color: #ff5722;
+  }
+  .main-div {
+    margin-top: 0px !important;
+  }
+  /* Default button style */
+  .btn-custom {
+    color: #333;
+    background-color: #f0f0f0;
+  }
 
-{% block content %}
-<h2>Login</h2>
-<form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
+  /* Active button style */
+  .btn-custom.active {
+    color: #fff;
+    background-color: #007bff; /* Change to your desired active color */
+  }
+</style>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
+<div
+  style="display: flex; justify-content: center; align-items: center"
+  class="main-div container"
+>
+  <div
+    style="width: 900px"
+    class="row justify-content-center min-vh-100 align-items-center"
+  >
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body p-5">
+          <h2 class="text-center mb-4">Welcome Back</h2>
+         
+          <div class="d-flex justify-content-center gap-3 mb-4">
+            <div class="d-flex justify-content-center gap-3 mb-4">
+              <a
+                href="{% url 'login'  %}?user_type=buyer"
+                class="btn btn-custom login-type-btn"
+                style="background-color: {% if request.GET.user_type == 'buyer' %}#ff5722{% else %}white{% endif %}; color: {% if request.GET.user_type == 'buyer' %}white{% else %}#ff5722{% endif %};"
+              >
+                Buyer Login
+              </a>
+              <a
+                href="{% url 'login'  %}?user_type=seller"
+                class="btn btn-custom login-type-btn"
+                style="background-color: {% if request.GET.user_type == 'seller' %}#ff5722{% else %}white{% endif %}; color: {% if request.GET.user_type == 'seller' %}white{% else %}#ff5722{% endif %};"
+              >
+                Seller Login
+              </a>
 
-    <button type="submit">Login</button>
-</form>
-{% endblock %}
+              
+            </div>
+          </div>
+
+          <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              {{ form.username }}
+            </div>
+
+            <div class="mb-4">
+              <label for="password" class="form-label">Password</label>
+              {{ form.password }}
+            </div>
+            {% if messages %}
+            {% for message in messages %}
+                {% if message.level == 40 %}  {# 40 is the level for ERROR messages #}
+                    <h6 class="text-danger">{{ message }}</h6>
+                {% else %}
+                    <h6>{{ message }}</h6>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+            <div class="d-grid">
+              <button
+                style="background-color: #ff5722"
+                type="submit"
+                class="btn btn-custom btn-lg"
+              >
+                Login
+              </button>
+            </div>
+          
+        
+        
+            <div class="text-center mt-3">
+              <a href="#" class="text-decoration-none" style="color: #ff5722"
+                >Forgot Password?</a
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  function setActive(event, clickedButton) {
+    event.preventDefault();
+    document.querySelectorAll(".login-type-btn").forEach((button) => {
+      button.classList.remove("active");
+    });
+    clickedButton.classList.add("active");
+    window.location.href = clickedButton.href;
+  }
+</script>
+
+{% endblock content %}

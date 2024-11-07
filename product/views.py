@@ -104,8 +104,9 @@ def delete_product(request, product_id):
         return redirect('dashboard')  
 
     return redirect('dashboard')
-@login_required
 def cart_view(request):
+    if not request.user.is_authenticated:
+        return redirect('/account/login')
     totalPrice = Decimal('0.00')
     user = get_object_or_404(Buyer, user=request.user)
     cart, created = Cart.objects.get_or_create(user=user)
@@ -132,8 +133,10 @@ def cart_view(request):
 
 
 
-@login_required
 def add_cart(request, product_id, action):
+    if not request.user.is_authenticated:
+        # Redirect to the login page if not authenticated
+        return redirect('/account/login')
     product = get_object_or_404(Product, product_id=product_id)
     user = get_object_or_404(Buyer, user=request.user)
     

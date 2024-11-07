@@ -1,279 +1,179 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
+<style>
+  a {
+    text-decoration: none;
+  }
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Filter Page</title>
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <style>
-      /*  Helper Styles */
+  .card-sl {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
 
-      a {
-        text-decoration: none;
-      }
+  .card-image img {
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 8px 8px 0px 0;
+  }
 
-      /* Card Styles */
+  .card-action {
+    position: relative;
+    float: right;
+    margin-top: -25px;
+    margin-right: 20px;
+    z-index: 2;
+    color: #e26d5c;
+    background: #fff;
+    border-radius: 100%;
+    padding: 15px;
+    font-size: 15px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
+  }
 
-      .card-sl {
-        border-radius: 8px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-          0 6px 20px 0 rgba(0, 0, 0, 0.19);
-      }
+  .card-action:hover {
+    color: #fff;
+    background: #e26d5c;
+    -webkit-animation: pulse 1.5s infinite;
+  }
 
-      .card-image img {
-        max-height: 100%;
-        max-width: 100%;
-        border-radius: 8px 8px 0px 0;
-      }
+  .card-heading {
+    font-size: 18px;
+    font-weight: bold;
+    background: #fff;
+    padding: 10px 15px;
+  }
 
-      .card-action {
-        position: relative;
-        float: right;
-        margin-top: -25px;
-        margin-right: 20px;
-        z-index: 2;
-        color: #e26d5c;
-        background: #fff;
-        border-radius: 100%;
-        padding: 15px;
-        font-size: 15px;
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2),
-          0 1px 2px 0 rgba(0, 0, 0, 0.19);
-      }
+  .card-text {
+    padding: 10px 15px;
+    background: #fff;
+    font-size: 14px;
+    color: #636262;
+  }
 
-      .card-action:hover {
-        color: #fff;
-        background: #e26d5c;
-        -webkit-animation: pulse 1.5s infinite;
-      }
+  .card-button {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    width: 100%;
+    background-color: #ff5722;
+    color: #fff;
+    border-radius: 0 0 8px 8px;
+  }
 
-      .card-heading {
-        font-size: 18px;
-        font-weight: bold;
-        background: #fff;
-        padding: 10px 15px;
-      }
+  .card-button:hover {
+    text-decoration: none;
+    background-color: #fd6537;
+    color: #fff;
+  }
 
-      .card-text {
-        padding: 10px 15px;
-        background: #fff;
-        font-size: 14px;
-        color: #636262;
-      }
+  @keyframes pulse {
+    0% {
+      -moz-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+      -webkit-transform: scale(0.9);
+      transform: scale(0.9);
+    }
 
-      .card-button {
-        display: flex;
-        justify-content: center;
-        padding: 10px 0;
-        width: 100%;
-        background-color:#FF5722;
-        color: #fff;
-        border-radius: 0 0 8px 8px;
-      }
+    70% {
+      -moz-transform: scale(1);
+      -ms-transform: scale(1);
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      box-shadow: 0 0 0 50px rgba(90, 153, 212, 0);
+    }
 
-      .card-button:hover {
-        text-decoration: none;
-        background-color:#fd6537;
-        color: #fff;
-      }
+    100% {
+      -moz-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+      -webkit-transform: scale(0.9);
+      transform: scale(0.9);
+      box-shadow: 0 0 0 0 rgba(90, 153, 212, 0);
+    }
+  }
 
-      @keyframes pulse {
-        0% {
-          -moz-transform: scale(0.9);
-          -ms-transform: scale(0.9);
-          -webkit-transform: scale(0.9);
-          transform: scale(0.9);
-        }
+  .filter-container {
+    max-width: 300px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
 
-        70% {
-          -moz-transform: scale(1);
-          -ms-transform: scale(1);
-          -webkit-transform: scale(1);
-          transform: scale(1);
-          box-shadow: 0 0 0 50px rgba(90, 153, 212, 0);
-        }
+  .filter-title {
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
 
-        100% {
-          -moz-transform: scale(0.9);
-          -ms-transform: scale(0.9);
-          -webkit-transform: scale(0.9);
-          transform: scale(0.9);
-          box-shadow: 0 0 0 0 rgba(90, 153, 212, 0);
-        }
-      }
+  .filter-item {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    padding: 8px 0;
+    color: #333;
+  }
 
-      .filter-container {
-        max-width: 300px;
-        background-color: #f8f9fa;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
+  .filter-item-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    display: inline-block;
+    background-color: #ccc; /* Placeholder for icon */
+    border-radius: 50%;
+  }
 
-      .filter-title {
-        font-weight: bold;
-        margin-bottom: 15px;
-      }
+  .filter-item span {
+    color: #555;
+  }
+</style>
 
-      .filter-item {
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-        padding: 8px 0;
-        color: #333;
-      }
-
-      .filter-item-icon {
-        width: 20px;
-        height: 20px;
-        margin-right: 8px;
-        display: inline-block;
-        background-color: #ccc; /* Placeholder for icon */
-        border-radius: 50%;
-      }
-
-      .filter-item span {
-        color: #555;
-      }
-      
-    </style>
-  </head>
-  <body>
-    <!-- Search bar -->
-   
-
-    <!-- Product Categories -->
-    <!-- <div
-      style="
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
-      "
-    >
-      <ul style="list-style-type: none; padding: 0; display: flex; gap: 15px">
-        <li>
-          <a href="#" style="text-decoration: none; color: #007bff"
-            >Electronics</a
+<div style="margin-left: 40px" class="container">
+  <a href="">
+    <div id="product-card" style="margin-left: 30px">
+      <div class="row">
+        {% for product in products %}
+        <div style="margin-top: 20px" class="col-md-3">
+          <a
+            href="products/{{product.product_id}}"
+            style="text-decoration: none; color: inherit"
           >
-        </li>
-        <li>
-          <a href="#" style="text-decoration: none; color: #007bff">Fashion</a>
-        </li>
-        <li>
-          <a href="#" style="text-decoration: none; color: #007bff"
-            >Home & Garden</a
-          >
-        </li>
-        <li>
-          <a href="#" style="text-decoration: none; color: #007bff"
-            >Health & Beauty</a
-          >
-        </li>
-        <li>
-          <a href="#" style="text-decoration: none; color: #007bff">Sports</a>
-        </li>
-      </ul>
-    </div> -->
-
-    <div style="margin-left: 40px;" class="container">
-      <!-- <div style="display: flex">
-        <div style="padding: 20px; width: 800px" class="filter-container">
-          <div class="filter-title">Filter</div>
-          <div class="filter-item">
-            <div class="filter-item-icon"></div>
-            <span>NIBOSI</span>
-          </div>
-          <div class="filter-item">
-            <div class="filter-item-icon"></div>
-            <span>Matrix</span>
-          </div>
-          <div class="filter-item">
-            <div class="filter-item-icon"></div>
-            <span>SKMEI</span>
-          </div>
-          <div class="filter-item">
-            <div class="filter-item-icon"></div>
-            <span>OLEVS</span>
-          </div>
-          <div class="filter-item">
-            <div class="filter-item-icon"></div>
-            <span>Casio</span>
-          </div>
-          <div class="filter-item">
-            <div class="filter-item-icon"></div>
-            <span>Acnos</span>
-          </div>
-          <div class="filter-item">
-            <div class="filter-item-icon"></div>
-            <span>Titan</span>
-          </div>
-          <div class="filter-item">
-            <div class="filter-item-icon"></div>
-            <span>Fastrack</span>
-          </div>
-          <div class="filter-item">
-            <div class="filter-item-icon"></div>
-            <span>LOUIS DEVIN</span>
-          </div>
-          <div class="filter-item">
-            <div class="filter-item-icon"></div>
-            <span>SELLORIA</span>
-          </div>
-          <div class="filter-item">
-            <div class="filter-item-icon"></div>
-            <span>V2A</span>
-          </div>
-        </div>
-
-        <script>
-          const pro = "{{products.name}}";
-          console.log(pro);
-        </script>
-      </div> -->
-<a href="">
-  <div id="product-card" style="margin-left: 30px;">
-    <div class="row">
-      {% for product in products %}
-      <div style="margin-top: 20px;" class="col-md-3">
-        <a href="products/{{product.product_id}}" style="text-decoration: none; color: inherit;">
-          <div class="card-sl">
-            <div style="display: flex; justify-content: center; align-items: center;" class="card-image">
-              <img style="height: 170px; object-fit: contain;" src="{{ product.image.url }}" alt="{{ product.name }}" />
+            <div class="card-sl">
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+                class="card-image"
+              >
+                <img
+                  style="height: 170px; object-fit: contain"
+                  src="{{ product.image.url }}"
+                  alt="{{ product.name }}"
+                />
+              </div>
+              <a class="card-action" href="#"><i class="fa fa-heart"></i></a>
+              <div style="height: 35px; overflow: hidden" class="card-heading">
+                {{ product.name }}
+              </div>
+              <div style="height: 50px; overflow: hidden" class="card-text">
+                {{ product.description }}
+              </div>
+              <div class="card-text">${{ product.price }}</div>
+              <form
+                action="{% url 'add_cart' product.product_id 'Increase' %}"
+                method="post"
+              >
+                {% csrf_token %}
+                <button class="btn card-button">Purchase</button>
+              </form>
             </div>
-            <a class="card-action" href="#"><i class="fa fa-heart"></i></a>
-            <div style="height: 35px; overflow:hidden;" class="card-heading">{{ product.name }}</div>
-            <div style="height: 50px; overflow:hidden;" class="card-text">{{ product.description }}</div>
-            <div class="card-text">${{ product.price }}</div>
-            <form action="{% url 'add_cart' product.product_id 'Increase' %}" method="post">
-              {% csrf_token %}
-              <button class="btn card-button">Purchase</button>
-          </form>
-          </div>
-        </a>
+          </a>
+        </div>
+        {% empty %}
+        <p>No products available.</p>
+        {% endfor %}
       </div>
-      {% empty %}
-      <p>No products available.</p>
-      {% endfor %}
     </div>
-  </div>
-  
-
-</a>
-      
-    </div>
-
-    <!-- Featured Products -->
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  </body>
-</html>
+  </a>
+</div>
 
 {% endblock content %}

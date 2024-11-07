@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+{% extends 'base.html' %} {% block content %}
+
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
+  rel="stylesheet"
+/>
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  rel="stylesheet"
+/>
+<style>
+  body {
+    background: linear-gradient(135deg, #fbe9e7 0%, #ffccbc 100%);
+    min-height: 100vh;
+  }
+  .role-btn {
+    padding: 15px;
+    border-radius: 12px;
+    margin: 10px;
+    width: 45%;
+    position: relative;
+    overflow: hidden;
+    background-color: white;
+    color: #757575;
+    border: 2px solid #eee;
+    transition: all 0.3s;
+  }
+  .role-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  .role-btn.active.btn-buyer {
+    background-color: #ff5722;
+    color: white;
+    border: none;
+  }
+  .role-btn.active.btn-seller {
+    background-color: #ff5722;
+    color: white;
+    border: none;
+  }
+  .role-btn.active {
+    transform: scale(1.05);
+  }
+  .form-control {
+    border: 2px solid #eee;
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.3s;
+  }
+  .form-control:focus {
+    border-color: #ff5722;
+    box-shadow: 0 0 0 0.2rem rgba(255, 87, 34, 0.15);
+  }
+  .card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+  }
+  .criteria-item {
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+  .criteria-icon {
+    transition: all 0.3s;
+  }
+  /* Updated criteria styling */
+  .criteria-item {
+    color: #dc3545; /* Red for not met criteria */
+  }
+  .criteria-item .criteria-icon {
+    color: #dc3545;
+  }
+  .criteria-item.criteria-met {
+    color: #228b22; /* Green for met criteria */
+    background-color: rgba(25, 135, 84, 0.1);
+  }
+  .criteria-item.criteria-met .criteria-icon {
+    color: #198754;
+  }
+  .heading-icon {
+    color: #ff5722;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  .form-label {
+    font-weight: 600;
+    color: #424242;
+  }
+  .password-group {
+    position: relative;
+  }
+  .password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #757575;
+    cursor: pointer;
+    z-index: 10;
+  }
+  .btn-register {
+    background-color: #ff5722;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    transition: all 0.3s;
+  }
+  .btn-register:hover:not(:disabled) {
+    background-color: #f4511e;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
+  }
+  .btn-register:disabled {
+    background-color: #ffccbc;
+    cursor: not-allowed;
+  }
+  .password-alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: none;
+    animation: slideDown 0.3s ease-out;
+  }
+  @keyframes slideDown {
+    from {
+      top: -100px;
+      opacity: 0;
+    }
+    to {
+      top: 20px;
+      opacity: 1;
+    }
+  }
+</style>
+<body>
+  <div
+    x
+    class="alert alert-danger password-alert"
+    role="alert"
+    id="passwordAlert"
+  >
+    <i class="fas fa-exclamation-circle me-2"></i>
+    Please make sure your passwords match!
+  </div>
+
+  <div style="margin-top: 20px !important" class="container">
+    <div class="row justify-content-center min-vh-100 align-items-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body p-5">
+            <div class="text-center">
+              <i class="fas fa-user-circle heading-icon"></i>
+              <h2 class="mb-4">Create Account</h2>
+
+              <div class="d-flex justify-content-center mb-4">
+                <button class="role-btn btn-buyer" id="buyerBtn">
+                  <i class="fas fa-shopping-cart me-2"></i>Register as Buyer
+                </button>
+                <button class="role-btn btn-seller" id="sellerBtn">
+                  <i class="fas fa-store me-2"></i>Register as Seller
+                </button>
+              </div>
+            </div>
+
+            <form
+              id="registerForm"
+              action="{% url 'register' %}?user_type=buyer"
+              method="post"
+            >
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="username" class="form-label">
+                  <i class="fas fa-user me-2" style="color: #ff5722"></i
+                  >Username
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="fas fa-user"></i
+                  ></span>
+                  <input
+                    type="text"
+                    name="username"
+                    class="form-control"
+                    id="username"
+                    placeholder="Enter your username"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="email" class="form-label">
+                  <i class="fas fa-envelope me-2" style="color: #ff5722"></i
+                  >Email
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="fas fa-envelope"></i
+                  ></span>
+                  <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">
+                  <i class="fas fa-lock me-2" style="color: #ff5722"></i
+                  >Password
+                </label>
+                <div class="input-group password-group">
+                  <span class="input-group-text"
+                    ><i class="fas fa-lock"></i
+                  ></span>
+                  <input
+                    type="password"
+                    name="password1"
+                    class="form-control"
+                    id="password"
+                    placeholder="Enter your password"
+                    required
+                  />
+                  <i class="fas fa-eye password-toggle"></i>
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label for="confirmPassword" class="form-label">
+                  <i class="fas fa-shield-alt me-2" style="color: #ff5722"></i
+                  >Confirm Password
+                </label>
+                <div class="input-group password-group">
+                  <span class="input-group-text"
+                    ><i class="fas fa-shield-alt"></i
+                  ></span>
+                  <input
+                    type="password"
+                    name="password2"
+                    class="form-control"
+                    id="confirmPassword"
+                    placeholder="Confirm your password"
+                    required
+                  />
+                  <i class="fas fa-eye password-toggle"></i>
+                </div>
+              </div>
+
+              <div class="d-grid mb-4">
+                <button
+                  type="submit"
+                  class="btn btn-register btn-lg"
+                  id="registerBtn"
+                >
+                  <i class="fas fa-user-plus me-2"></i>Create Account
+                </button>
+              </div>
+
+              <div class="text-center">
+                Already have an account?
+                <a
+                  href="#"
+                  class="login-link"
+                  style="color: #ff5722; text-decoration: none"
+                  >Sign in</a
+                >
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <script>
+        const commonPasswords = ['password', '123456', '12345678', 'qwerty', 'admin', 'letmein', 'welcome'];
+        let selectedRole = null;
+
+        function selectRole(role) {
+            selectedRole = role;
+            document.getElementById('buyerBtn').classList.toggle('active', role === 'buyer');
+            document.getElementById('sellerBtn').classList.toggle('active', role === 'seller');
+            validateForm();
+        }
+
+        function showPasswordAlert() {
+            const alert = document.getElementById('passwordAlert');
+            alert.style.display = 'block';
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
+
+        function validateForm() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const isPasswordValid = validatePassword();
+            const isRoleSelected = selectedRole !== null;
+            
+            document.getElementById('matchCriteria').classList.toggle('criteria-met', 
+                password === confirmPassword && password !== '');
+        }
+
+        function validatePassword() {
+            const username = document.getElementById('username').value.toLowerCase();
+            const email = document.getElementById('email').value.toLowerCase();
+            const password = document.getElementById('password').value.toLowerCase();
+            
+            // Fixed personal information check
+            const personalInfo = [
+                username,
+                email.split('@')[0],
+                'password'
+            ].filter(info => info.length > 0); // Only check non-empty values
+            
+            const hasPersonalInfo = personalInfo.some(info => 
+                password.includes(info) || 
+                info.includes(password)
+            );
+
+            const criteria = {
+                length: password.length >= 8,
+                numeric: !/^\d+$/.test(password),
+                common: !commonPasswords.includes(password),
+                personal: !hasPersonalInfo,
+                match: password === document.getElementById('confirmPassword').value.toLowerCase() && password !== ''
+            };
+
+            // Update criteria visual feedback
+            Object.entries(criteria).forEach(([key, value]) => {
+                const element = document.getElementById(`${key}Criteria`);
+                if (element) {
+                    element.classList.toggle('criteria-met', value);
+                }
+            });
+
+            return Object.values(criteria).every(value => value === true);
+        }
+
+        ['username', 'email', 'password', 'confirmPassword'].forEach(id => {
+            document.getElementById(id).addEventListener('input', validateForm);
+        });
+
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling;
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                showPasswordAlert();
+                return;
+            }
+
+            const formData = {
+                role: selectedRole,
+                username: document.getElementById('username').value,
+                email: document.getElementById('email').value,
+                password: password
+            };
+            console.log('Registration attempt:', formData);
+            alert(`Registration successful as ${selectedRole}!`);
+        }
+    </script> -->
+</body>
+
+{% endblock content %}

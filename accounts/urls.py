@@ -9,13 +9,9 @@ class CustomLogoutView(auth_views.LogoutView):
         return super().dispatch(request, *args, **kwargs)
 
 urlpatterns = [
-  
-    path('login_as_seller/', views.seller, name = "login_as_seller"),
-    path('login_as_buyer/', views.buyer, name = "login_as_buyer"),
+
+    path('login/', views.buyer, name = "login"),
+    path('registration/', views.useRegistration, name="register"),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
-
-
- 
-
     
 ]

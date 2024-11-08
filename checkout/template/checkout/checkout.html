@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Page</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        .custom-orange {
+            background-color: #ff5722;
+            color: white;
+        }
+        .custom-orange:hover {
+            background-color: #f4511e;
+            color: white;
+        }
+        /* Updated address card styles */
+        .address-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .address-card:hover {
+            border-color: #ff5722;
+            background-color: #fff3ef;
+        }
+        .address-card.selected {
+            border: 2px solid #ff5722;
+            background-color: #fff3ef;
+        }
+        .address-card label {
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            margin: 0;
+        }
+        .address-card .form-check {
+            padding-left: 0;
+        }
+        .address-card .form-check-input {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: 0;
+            opacity: 0;
+        }
+        /* Payment option styles */
+        .payment-option {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .payment-option:hover {
+            border-color: #ff5722;
+            background-color: #fff3ef;
+        }
+        .payment-option.selected {
+            border-color: #ff5722;
+            background-color: #fff3ef;
+        }
+        .payment-option label {
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            margin: 0;
+        }
+        .payment-option .form-check {
+            padding-left: 0;
+        }
+        .payment-option .form-check-input {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: 0;
+            opacity: 0;
+        }
+        .payment-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+          }
+          
+          /* New styles for address functionality */
+          .address-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+          }
+          
+          .address-container {
+            background: white;
+            max-width: 500px;
+            margin: 50px auto;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          }
+          
+          .address-selection {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+          }
+          
+          .address-list {
+            margin: 15px 0;
+          }
+          
+          .address-item {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+          }
+          
+          .address-item.selected {
+            border-color: #0d6efd;
+            background-color: #f8f9fa;
+          }
+          
+          .add-address-link {
+            color: #0d6efd;
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: 14px;
+            cursor: pointer;
+          }
+          
+          .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+          }
+          
+          .cancel-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+          }
+          
+          .save-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: #0d6efd;
+            color: white;
+            cursor: pointer;
+          }
+          
+          /* Input styles */
+          .form-control:disabled {
+            background-color: #f8f9fa;
+            cursor: not-allowed;
+          }
+          
+          /* Remove number input arrows */
+          input[type="number"]::-webkit-inner-spin-button,
+          input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+          
+          </style>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <!-- Delivery Address Section -->
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h4 class="mb-4">1. Select Delivery Address</h4>
+                        <div class="address-list">
+                            {% for address in customerAddress %}
+                            <div class="address-card {% if forloop.first %}selected{% endif %}" onclick="selectAddress(this)">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="address" {% if forloop.first %}checked{% endif %}>
+                                    <label class="form-check-label">
+                                        <strong>Home</strong><br>
+                                        {{address.full_name}} <br>
+                                        {{address.address_line1}} <br>
+                                        {{address.address_line2}} {{address.city}} {{address.state}} {{ address.pincode}}<br>
+                                        Phone: +91 {{ address.mobile_number}}
+                                    </label>
+                                </div>
+                            </div>
+                            {% endfor %}
+                           
+                          
+                            <button onclick="openAddressPopup()" class="btn custom-orange mt-3">
+                                <i class="fas fa-plus me-2"></i>Add New Address
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="add-address-btn-container">
+                  
+                  </div>
+                  
+                  <!-- Address Popup -->
+                  <div class="address-popup" id="addressPopup">
+                    <div class="address-container">
+                      <h3>Add New Address</h3>
+                      <form method="post" action="{% url 'checkout'  %}" id="addressForm">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <label>Full Name</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="full_name"
+                            placeholder="Enter your full name"
+                            required
+                          />
+                        </div>
+                  
+                        <div class="form-group">
+                          <label>Mobile Number</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            name="mobile_number"
+                            id="mobile_number"
+                            placeholder="Enter mobile number"
+                            required
+                          />
+                        </div>
+                  
+                        <div class="form-group">
+                          <label>Pincode</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            name="pincode"
+                            placeholder="Enter pincode"
+                            required
+                          />
+                        </div>
+                  
+                        <div class="form-group">
+                          <label>Address Line 1</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="address_line1"
+                            placeholder="House No, Building, Street, Area"
+                            required
+                          />
+                        </div>
+                  
+                        <div class="form-group">
+                          <label>Address Line 2</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="address_line2"
+                            placeholder="Landmark"
+                          />
+                        </div>
+                  
+                        <div class="form-group">
+                          <label>Country</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            value="India"
+                            disabled
+                          />
+                        </div>
+                  
+                        <div class="form-group">
+                          <label>State</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="state"
+                            placeholder="Enter state"
+                            required
+                          />
+                        </div>
+                  
+                        <div class="form-group">
+                          <label>City</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="city"
+                            placeholder="Enter city"
+                            required
+                          />
+                        </div>
+                  
+                        <div class="button-group">
+                          <button type="button" class="cancel-btn" onclick="closeAddressPopup()">Cancel</button>
+                          <button style="background-color: #ff5722;" type="submit" class="save-btn">Save Address</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+              
+                  
+                  <!-- Payment Popup (Modified to include address selection) -->
+                  <div class="payment-popup" id="paymentPopup">
+                    <div style="height: 500px; overflow: scroll" class="payment-container">
+                      <!-- Address Selection Section -->
+                      <div class="address-selection">
+                        <h3>Select Delivery Address</h3>
+                        <div id="addressList" class="address-list">
+                          <!-- Addresses will be populated here -->
+                        </div>
+                        <button onclick="openAddressPopup()" class="add-address-link">
+                          <i class="bi bi-plus"></i> Add New Address
+                        </button>
+                      </div>
+                  
+                      <!-- Rest of your existing payment form code -->
+                      <!-- ... (keep the existing payment form code here) ... -->
+                    </div>
+                  </div>
+
+                <!-- Payment Method Section -->
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="mb-4">2. Payment Method</h4>
+                        
+                        <!-- Credit/Debit Card Option -->
+                        <div class="payment-option selected" onclick="selectPayment(this)">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="payment" checked>
+                                <label class="form-check-label">
+                                    <strong>Credit/Debit Card</strong>
+                                    <div class="mt-2">
+                                        <i class="fab fa-cc-visa fa-2x me-2"></i>
+                                        <i class="fab fa-cc-mastercard fa-2x me-2"></i>
+                                        <i class="fab fa-cc-amex fa-2x"></i>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Net Banking Option -->
+                        <div class="payment-option" onclick="selectPayment(this)">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="payment">
+                                <label class="form-check-label">
+                                    <strong>Net Banking</strong>
+                                    <div class="text-muted mt-2">Choose from over 100+ banks</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- UPI Apps Option -->
+                        <div class="payment-option" onclick="selectPayment(this)">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="payment">
+                                <label class="form-check-label">
+                                    <strong>UPI Apps</strong>
+                                    <div class="mt-2">
+                                        <img src="/api/placeholder/40/40" alt="GPay" class="me-2">
+                                        <img src="/api/placeholder/40/40" alt="PhonePe" class="me-2">
+                                        <img src="/api/placeholder/40/40" alt="Paytm">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- EMI Option -->
+                        <div class="payment-option" onclick="selectPayment(this)">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="payment">
+                                <label class="form-check-label">
+                                    <strong>EMI</strong>
+                                    <div class="text-muted mt-2">No cost EMI available on select cards</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <a   href=" {% url 'payment_success' %} " class="btn custom-orange w-100 mt-4">Proceed to Pay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function selectAddress(element) {
+            // Remove selected class from all address cards
+            document.querySelectorAll('.address-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked card
+            element.classList.add('selected');
+            
+            // Check the radio button
+            const radio = element.querySelector('input[type="radio"]');
+            radio.checked = true;
+        }
+
+        function selectPayment(element) {
+            // Remove selected class from all payment options
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            element.classList.add('selected');
+            
+            // Check the radio button
+            const radio = element.querySelector('input[type="radio"]');
+            radio.checked = true;
+        }
+        // Address popup functions
+function openAddressPopup() {
+    document.getElementById("addressPopup").style.display = "block";
+  }
+  
+  function closeAddressPopup() {
+    document.getElementById("addressPopup").style.display = "none";
+  }
+  
+  // Close address popup when clicking outside
+  document.getElementById("addressPopup").addEventListener("click", function(e) {
+    if (e.target === this) {
+      closeAddressPopup();
+    }
+  });
+  
+  // Handle address form submission
+   
+
+  // Function to add address to the list
+  function addAddressToList(addressData) {
+    const addressList = document.getElementById("addressList");
+    const addressDiv = document.createElement("div");
+    addressDiv.className = "address-item";
+    addressDiv.innerHTML = `
+      <strong>${addressData.full_name}</strong><br>
+      ${addressData.address_line1}<br>
+      ${addressData.address_line2 ? addressData.address_line2 + '<br>' : ''}
+      ${addressData.city}, ${addressData.state} - ${addressData.pincode}<br>
+      Mobile: ${addressData.mobile_number}
+    `;
+  
+    // Add click handler to select address
+    addressDiv.addEventListener("click", function() {
+      document.querySelectorAll(".address-item").forEach(item => {
+        item.classList.remove("selected");
+      });
+      this.classList.add("selected");
+    });
+  
+    addressList.appendChild(addressDiv);
+  }
+    </script>
+</body>
+</html>

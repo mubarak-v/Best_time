@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts',
     'product',
     'home_page',
+    'checkout'
     
 ]
 
@@ -62,7 +63,7 @@ ROOT_URLCONF = 'ecommerce_app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'ecommerce_app/templates', BASE_DIR / 'product/template/product',BASE_DIR / 'home_page/template/home_page',BASE_DIR/'accounts/template/accounts',],
+        'DIRS': [BASE_DIR / 'ecommerce_app/templates', BASE_DIR / 'product/template/product',BASE_DIR / 'home_page/template/home_page',BASE_DIR/'accounts/template/accounts',BASE_DIR/'checkout/template/checkout'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

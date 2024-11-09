@@ -16,6 +16,12 @@ class CustomerAddress(models.Model):
     state = models.CharField(max_length=50, null=False)
     id_default= models.BooleanField(default=False)
     city = models.CharField(max_length=50, null=False)
-
+class CardData(models.Model):
+    buyer = models.ForeignKey(Buyer, on_delete=models.CASCADE, related_name='cards')
+    card_number = models.CharField(max_length=16, null=False)
+    expire_date = models.CharField(null=False, max_length=4)
+    cvv = models.CharField(max_length=3, null=False)
+    pincode = models.CharField(max_length=4, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     

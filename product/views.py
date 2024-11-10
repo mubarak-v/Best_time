@@ -6,6 +6,7 @@ from accounts.models import Buyer
 from django.shortcuts import get_object_or_404
 from accounts.models import Buyer, Seller
 from django.contrib.auth.decorators import login_required,user_passes_test
+from product.models import OrderItem
 
 # Create your views here.
 # python django inheritance
@@ -53,6 +54,20 @@ def is_seller(user):
 @login_required
 @user_passes_test(is_seller,login_url='/account/login_as_seller')
 def product_dashboard(request):
+    seller = request.user.seller
+    order_items = OrderItem.objects.filter(product__seller=seller).select_related('order', 'product')
+
+    orders = {}
+    for item in order_items:
+        order_id = item.order.order_id
+        if order_id not in orders:
+            orders[order_id] = {
+                'order_id': order_id,
+                'buyer': item.order.user,
+                'created_at': item.order.created_at,
+                'items': [],
+            }
+        orders[order_id]['items'].append(item)
     try:
         seller_instance = Seller.objects.get(user=request.user)
     except Seller.DoesNotExist:
@@ -70,7 +85,8 @@ def product_dashboard(request):
             return redirect('dashboard')
     context = {
         'form': form,
-        'user_products':user_products
+        'user_products':user_products,
+        'orders':orders
             }
 
     return render(request, "product_dashboard.html",context)
@@ -128,8 +144,7 @@ def cart_view(request):
         totalPrice += price
         
     cart_items_length = len(cart_items)
-    # views.py
-    print( totalPrice)
+    
 
 
     context = {
@@ -146,7 +161,6 @@ def cart_view(request):
 
 def add_cart(request, product_id, action):
     if not request.user.is_authenticated:
-        # Redirect to the login page if not authenticated
         return redirect('/account/login')
     product = get_object_or_404(Product, product_id=product_id)
     user = get_object_or_404(Buyer, user=request.user)

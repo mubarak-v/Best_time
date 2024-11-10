@@ -233,7 +233,7 @@
         alt="Product Image"
         class="product-image"
       />
-    </div>
+</div>
 
     <!-- Product Details -->
     <div class="col-md-6">
@@ -246,8 +246,15 @@
       <p class="special-features">
         Battery Capacity: {{product.battery_capacity}}
       </p>
+      <form action="{% url 'add_cart' product.product_id 'Increase' %}">
+        {% csrf_token %}
+        <button class="btn btn-primary"> Add to Cart</button>
+</form>
 
-  
+       <!-- Reviews Section -->
+    <div class="container text-center" style="margin-top: 50px;">
+      <button id="showPopup" class="btn btn-primary">Write a Review</button>
+  </div>
 
       <!-- Include additional content like reviews here -->
       <div class="mt-4">
@@ -316,6 +323,21 @@
         </div>
       </div>
       </div>
+   
+      
+      <div id="myPopup" class="popup">
+        <div class="popup-content">
+            <h2>Write a Review</h2>
+            <form action="" method="post" id="reviewForm">
+                {% csrf_token %}
+                {{ reviewForm.as_div }}
+                <button type="submit" class="btn btn-danger">Submit</button>
+            </form>
+            <button class="close-btn" id="closePopup">Cancel</button>
+        </div>
+    </div>
+
+  
 
       <script>
         // Show more reviews functionality

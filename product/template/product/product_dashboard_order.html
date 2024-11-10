@@ -76,7 +76,7 @@
         <a href="{% url 'dashboard' %}" class="active"
           ><i class="fas fa-tachometer-alt"></i> Dashboard</a
         >
-        <a href="{% url 'dashboard_order' %}"><i class="fas fa-shopping-cart"></i> Order</a>
+        <a href="#"><i class="fas fa-shopping-cart"></i> Order</a>
         <a href="#"><i class="fas fa-user-friends"></i> Customer</a>
 
         <a href="#"><i class="fas fa-credit-card"></i> Billing</a>
@@ -123,43 +123,45 @@
             <thead>
               <tr>
                 <th>Product Name</th>
-                <th>Product ID</th>
+                <th>Order ID</th>
                 <th>Price</th>
-                <th>Stock</th>
+                <th> Quantity</th>
                 <th>Type</th>
                 <th>Status</th>
                 <th>Change</th>
               </tr>
             </thead>
             <tbody>
-              {% for product in user_products %}
-              <tr>
-                <td>{{ product.name }}</td>
-                <td>{{ product.product_id }}</td>
-                <td>₹ {{ product.price }}</td>
-                <td><i class="fas fa-ellipsis-h"></i></td>
-                <td><i class="fas fa-ellipsis-h"></i></td>
-                <td><i class="fas fa-ellipsis-h"></i></td>
-                <td>
-                  <a style="btn" href="edit/{{ product.product_id }}">Edit</a>
-                  <form
-                    action="{% url 'delete_product' product.product_id %}"
-                    method="post"
-                    style="display: inline"
-                  >
-                    {% csrf_token %}
-                    <button
-                      style="color: red; text-decoration: underline red"
-                      type="submit"
-                      class="btn"
-                      onclick="return confirm('Are you sure you want to delete this product?');"
-                    >
-                      Delete
-                    </button>
-                  </form>
-                </td>
-              </tr>
+              {% for order in orders %}
+              
+              {% for item in order.order_items.all %}
+                  <tr>
+                      <td>{{ item.product_name }}</td>
+                      <td>{{ order.order_id }}</td>
+                      <td>₹ {{ item.total_price }}</td>
+                      <td>{{ item.quantity }}</td>
+                      <td>{{ item.full_name }}</td>
+                      <td>{{ item.mobile_number }}</td>
+                      <td>{{ item.address }}</td>
+                      <td>
+                          <a class="btn" href="#">Edit</a>
+                          <form action="#" method="post" style="display: inline">
+                              {% csrf_token %}
+                              <button
+                                  style="color: red; text-decoration: underline red"
+                                  type="submit"
+                                  class="btn"
+                                  onclick="return confirm('Are you sure you want to delete this product?');"
+                              >
+                                  Delete
+                              </button>
+                          </form>
+                      </td>
+                  </tr>
               {% endfor %}
+          {% endfor %}
+          
+          
             </tbody>
           </table>
         </div>

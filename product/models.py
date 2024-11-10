@@ -25,15 +25,13 @@ class Product(models.Model):
     battery_capacity = models.CharField(null=True,max_length=150)
 
     def save(self, *args, **kwargs):
-        # Automatically set the brand to the seller's company name
         if self.seller:
             self.brand = self.seller.company_name
-        super().save(*args, **kwargs)
-        
+        super().save(*args, **kwargs)      
     def __str__(self):
         name = f"{self.name}_{self.brand}"
         return name
-    
+       
 class Review(models.Model):
     product  = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
     reviewer_name = models.CharField(max_length=100)
@@ -66,5 +64,33 @@ class CartItem(models.Model):
     def total_price(self):
         return self.quantity * self.product.price
     
+
+class OrderDetails(models.Model):
+    user = models.ForeignKey(Buyer, on_delete=models.CASCADE, related_name='order_details')
+    order_id = models.CharField(max_length=100, unique=True, primary_key=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+
+    
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(OrderDetails, on_delete=models.CASCADE, related_name='order_items')   
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product_name = models.CharField(max_length=250)
+    quantity = models.PositiveIntegerField(default=0)
+    total_price = models.DecimalField(decimal_places=2, max_digits=10)
+    price = models.DecimalField(decimal_places=2, max_digits=10)
+    # ---------------------- customer details ----------------
+    full_name = models.CharField(max_length=100, null=False)
+    mobile_number = models.CharField(max_length=15, null=False )
+    address = models.CharField(max_length=250, null=False)
+
+    
+
+
+
+
+
+
 
     

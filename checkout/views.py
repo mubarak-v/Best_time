@@ -62,7 +62,6 @@ def paymentSuccess(request):
     user = Buyer.objects.get(user=request.user)
     cart_items = CartItem.objects.filter(cart__user=user)
     
-    # Retrieve the selected address information
     customer_address = CustomerAddress.objects.filter(buyer=user, id=address_id).first()
 
     if customer_address:
@@ -70,7 +69,6 @@ def paymentSuccess(request):
         mobile_number = customer_address.mobile_number
         address = f"{customer_address.address_line1}, {customer_address.address_line2 or ''}, {customer_address.city}, {customer_address.state}, {customer_address.country}, {customer_address.pincode}"
     else:
-        # Handle case where address is not found
         return redirect('checkout')
 
     seller_items = defaultdict(list)
@@ -94,7 +92,6 @@ def paymentSuccess(request):
                 quantity=item.quantity,
                 total_price=item.total_price,
                 price=item.product.price,
-                # Setting customer address details in the OrderItem
                 full_name=full_name,
                 mobile_number=mobile_number,
                 address=address,
@@ -121,11 +118,10 @@ def paymentSuccess(request):
 def dashboardOrder(request):
     seller = request.user.seller  
 
-    # Retrieve all orders for the seller and their items in one query
     orders = (
         OrderDetails.objects
         .filter(order_items__product__seller=seller)
-        .prefetch_related('order_items')  # Load related order items efficiently
+        .prefetch_related('order_items')  
         .distinct()
     )
 

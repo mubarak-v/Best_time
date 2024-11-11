@@ -32,12 +32,15 @@ def products(request):
 
 def product_details(request,pk):
     reviewForm = ReviewForm(request.POST)
+    
     if request.method == 'POST':
-        if reviewForm.is_valid:
+        if reviewForm.is_valid and request.user.is_authenticated:
             review = reviewForm.save(commit=False)
             review.product = Product.objects.get(product_id = pk)
             review.reviewer_name = request.user.username
             review.save()
+        else:
+            return redirect('login')
     product_details = Product.objects.filter(product_id = pk)
     Reviews = Review.objects.filter(product__product_id = pk)
     context ={

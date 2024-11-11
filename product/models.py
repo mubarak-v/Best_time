@@ -34,7 +34,7 @@ class Product(models.Model):
        
 class Review(models.Model):
     product  = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
-    reviewer_name = models.CharField(max_length=100)
+    reviewer_name = models.CharField(max_length=100,null= False)
     rating = models.DecimalField(decimal_places=1,max_digits=2)
     comment = models.TextField(max_length=200, null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -125,51 +125,16 @@
   }
 </style>
 
-<div style="margin-left: 40px" class="container">
+<div style="margin-left: 40px" class="container-fluid">
   <a href="">
-    <div id="product-card" style="margin-left: 30px">
+    <div id="product-card" style="margin-left: 30px;margin-top: 40px;">
       <div class="row">
         {% for product in products %}
-        <div style="margin-top: 20px" class="col-md-3">
-          <a
-            href=" {% url 'products_details' product.product_id %} "
-            style="text-decoration: none; color: inherit"
-          >
-            <div class="card-sl">
-              <div
-                style="
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                "
-                class="card-image"
-              >
-                <img
-                  style="height: 170px; object-fit: contain"
-                  src="{{ product.image.url }}"
-                  alt="{{ product.name }}"
-                />
-              </div>
-              <a class="card-action" href="#"><i class="fa fa-heart"></i></a>
-              <div style="height: 35px; overflow: hidden" class="card-heading">
-                {{ product.name }}
-              </div>
-              <div style="height: 50px; overflow: hidden" class="card-text">
-                {{ product.description }}
-              </div>
-              <div class="card-text">₹{{ product.price }}</div>
-              <form
-                action="{% url 'add_cart' product.product_id 'Increase' %}"
-                method="post"
-              >
-                {% csrf_token %}
-                <button class="btn card-button">Purchase</button>
-              </form>
-            </div>
-          </a>
-        </div>
+        {% include 'product_card.html' with product=product %}
+
         {% empty %}
         <p>No products available.</p>
+        
         {% endfor %}
       </div>
     </div>

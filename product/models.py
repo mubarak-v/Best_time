@@ -17,7 +17,6 @@ class Product(models.Model):
     image = models.ImageField(upload_to='product_images/')
     # created_at = models.DateTimeField(auto_now_add=True)  # Automatically set on creation
     # updated_at = models.DateTimeField(auto_now=True)      # Automatically update on each save
-
     product_id = models.AutoField(primary_key=True)
     offer_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     brand = models.CharField(max_length=100, null=True)

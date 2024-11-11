@@ -1,17 +1,12 @@
 <!DOCTYPE html>
-{% extends 'base.html' %} {% block content %}
-<link
-  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-  rel="stylesheet"
-/>
+{% extends 'base.html' %}
+{% block content %}
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-  rel="stylesheet"
-/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
 
 <style>
+  /* Previous styles remain the same */
   body {
     font-family: "Roboto", sans-serif;
     margin: 0;
@@ -30,115 +25,45 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-bottom: 24px;
-  }
-
-  .review-card .reviewer-name {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-  }
-
-  .review-card .review-date {
-    font-size: 14px;
-    color: #999;
-    margin-bottom: 12px;
-  }
-
-  .review-card .review-text {
-    font-size: 15px;
-    color: #555;
-    line-height: 1.6;
-  }
-
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
     width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
   }
 
-  .modal-content {
-    background-color: #fefefe;
-    margin: 10% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-height: 70%;
-    overflow-y: auto;
-  }
-
-  .close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-
-  .close-button:hover,
-  .close-button:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
+  /* Updated view all button styles */
   .view-all-button {
-    margin-top: 20px;
+    display: block;
+    margin: 20px auto;
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    width: fit-content;
   }
 
   .view-all-button:hover {
     background-color: #0056b3;
   }
-  /* Custom styles */
-  .product-page {
-    padding: 20px;
-  }
-  .product-image {
-    max-width: 100%;
-    border-radius: 8px;
-  }
-  .back-link {
-    color: #555;
-    font-size: 0.9rem;
-  }
-  .product-title {
-    font-size: 1.75rem;
-    font-weight: bold;
-  }
-  .price {
-    font-size: 1.5rem;
+
+  /* Rest of the previous styles remain the same */
+  .reviewer-name {
+    font-size: 16px;
     font-weight: bold;
     color: #333;
   }
-  .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+
+  .review-date {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 12px;
   }
-  .options-label {
-    font-weight: bold;
-    margin-bottom: 8px;
+
+  .review-text {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.6;
   }
-  .rating {
-    color: #ffc107;
-    font-size: 0.9rem;
-  }
-  .color-options input {
-    margin-right: 5px;
-  }
-  .product-addons {
-    font-size: 0.9rem;
-  }
-  /* Brand Name */
+
   .brand-name {
     font-family: "Poppins", sans-serif;
     font-size: 18px;
@@ -146,14 +71,12 @@
     color: #111;
   }
 
-  /* Product Description */
   .product-description {
     font-family: "Roboto", sans-serif;
     font-size: 16px;
     color: #333;
   }
 
-  /* Special Features */
   .special-features {
     font-family: "Montserrat", sans-serif;
     font-size: 18px;
@@ -161,38 +84,45 @@
     color: #555;
   }
 
-  /* Battery Capacity and Technical Specs */
-  .battery-capacity {
-    font-family: "Roboto Mono", monospace;
-    font-size: 16px;
-    color: #666;
-  }
-  /* Popup container */
-  .popup {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    background-color: rgba(
-      0,
-      0,
-      0,
-      0.5
-    ); /* Black background with transparency */
-    z-index: 1000; /* Sit on top */
+  .product-title {
+    font-size: 1.75rem;
+    font-weight: bold;
   }
 
-  /* Popup content */
-  .popup-content {
-    background-color: white;
-    margin: 15% auto; /* 15% from the top and centered */
+  .modal, .popup {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  .modal-content, .popup-content {
+    background-color: #fefefe;
+    margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-    max-width: 500px; /* Maximum width */
-    text-align: center; /* Center text */
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+  }
+
+  .close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .close-button:hover,
+  .close-button:focus {
+    color: black;
+    text-decoration: none;
   }
 
   .close-btn {
@@ -202,207 +132,194 @@
     padding: 10px 15px;
     cursor: pointer;
   }
+
+  .product-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 350px;
+  }
+
+  .product-image {
+    max-width: 100%;
+    border-radius: 8px;
+    object-fit: contain;
+  }
+
+  /* New styles for reviews section */
+  #reviews-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .reviews-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 </style>
 
 {% for product in product_details %}
-
 <div class="container product-page">
-  <!-- Back Link -->
-  <a
-    onclick="window.history.back()"
-    style="font-size: 15px"
-    href="#"
-    class="back-link"
-  >
-  </a>
+  <a onclick="window.history.back()" class="back-link" href="#"></a>
 
   <div class="row mt-3">
-    <!-- Product Image -->
-    <div
-      style="
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 350px;
-        object-fit: contain;
-      "
-      class="col-md-6"
-    >
-      <img
-        src="{{product.image.url}}"
-        alt="Product Image"
-        class="product-image"
-      />
-</div>
+    <div style="display: flex;justify-content: center;align-items: center;" class="col-md-6 product-image-container">
+      <img style="height: 300px;object-fit: contain;" src="{{product.image.url}}" alt="Product Image" class="product-image" />
+    </div>
 
-    <!-- Product Details -->
     <div class="col-md-6">
       <div class="product-title">{{product.name}}</div>
       <p class="product-description">Description: {{product.description}}</p>
       <p class="brand-name">Brand: {{product.brand}}</p>
-      <p class="special-features">
-        Special Feature: {{product.special_feature}}
-      </p>
-      <p class="special-features">
-        Battery Capacity: {{product.battery_capacity}}
-      </p>
+      <p class="special-features">Special Feature: {{product.special_feature}}</p>
+      <p class="special-features">Battery Capacity: {{product.battery_capacity}}</p>
+      
       <form action="{% url 'add_cart' product.product_id 'Increase' %}">
         {% csrf_token %}
-        <button class="btn btn-primary"> Add to Cart</button>
-</form>
+        <button class="btn btn-primary">Add to Cart</button>
+      </form>
 
-       <!-- Reviews Section -->
-    <div class="container text-center" style="margin-top: 50px;">
-      <button id="showPopup" class="btn btn-primary">Write a Review</button>
-  </div>
+      <div class="container text-center" style="margin-top: 50px;">
+        <button id="showPopup" class="btn btn-primary">Write a Review</button>
+      </div>
 
-      <!-- Include additional content like reviews here -->
+      <!-- Updated Reviews Section -->
       <div class="mt-4">
-        <ul class="nav review-container nav-tabs">
-          <li class="nav-item">
-            <div id="reviews-container">
-              <h4>Product Reviews</h4>
-              {% for review in Reviews  %}
-              
+        <div id="reviews-container">
+          <h4>Product Reviews</h4>
+          <div class="reviews-list">
+            {% for review in Reviews %}
               {% if forloop.counter <= 2 %}
-              <div class="review-container">
-                <div style="width: 500px" class="review-card">
-                  {% if review.rating >= 5 %}
-                  <h6>⭐⭐⭐⭐⭐</h6>
-                  {% elif review.rating >= 4 %}
-                  <h6>⭐⭐⭐⭐</h6>
-                  {% elif review.rating >= 3 %}
-                  <h6>⭐⭐⭐</h6>
-                  {% elif review.rating >= 2 %}
-                  <h6>⭐⭐</h6>
-                  {% elif review.rating %} ⭐ {% else %}
-                  <h6>No Rating</h6>
-                  {% endif %}
-                  <div class="reviewer-name">{{ review.rating }}</div>
-                  <div class="reviewer-name">{{ review.reviewer_name|title }}</div>
-                  <div class="review-text">{{ review.comment }}</div>
-                  <div class="review-date">{{ review.created_at }}</div>
-                </div>
+              <div class="review-card">
+                {% if review.rating >= 5 %}
+                <h6>⭐⭐⭐⭐⭐</h6>
+                {% elif review.rating >= 4 %}
+                <h6>⭐⭐⭐⭐</h6>
+                {% elif review.rating >= 3 %}
+                <h6>⭐⭐⭐</h6>
+                {% elif review.rating >= 2 %}
+                <h6>⭐⭐</h6>
+                {% elif review.rating %}
+                <h6>⭐</h6>
+                {% else %}
+                <h6>No Rating</h6>
+                {% endif %}
+                <div class="reviewer-name">{{ review.rating }}</div>
+                <div class="reviewer-name">{{ review.reviewer_name|title }}</div>
+                <div class="review-text">{{ review.comment }}</div>
+                <div class="review-date">{{ review.created_at }}</div>
               </div>
               {% endif %}
-                
-          
-              {% endfor %}
-              {% if Reviews|length > 2 %}
-              <button style="margin-left: 45px;" class="view-all-button" id="openModal">
-                View All Reviews
-              </button>
-              {% endif %}
-            </div>
-          </li>
-        </ul>
-      </div>
-      
-      <div id="myModal" class="modal">
-        <div class="modal-content">
-          <span class="close-button">&times;</span>
-          {% for review in Reviews %}
-          <div class="review-card">
-            {% if review.rating >= 5 %}
-            <h6>⭐⭐⭐⭐⭐</h6>
-            {% elif review.rating >= 4 %}
-            <h6>⭐⭐⭐⭐</h6>
-            {% elif review.rating >= 3 %}
-            <h6>⭐⭐⭐</h6>
-            {% elif review.rating >= 2 %}
-            <h6>⭐⭐</h6>
-            {% elif review.rating %} ⭐ {% else %}
-            <h6>No Rating</h6>
+            {% endfor %}
+            
+            {% if Reviews|length > 2 %}
+            <button class="view-all-button" id="openModal">View All Reviews</button>
             {% endif %}
-            <div class="reviewer-name">{{ review.rating }}</div>
-            <div class="reviewer-name">{{ review.reviewer_name|title }}</div>
-            <div class="review-date">{{ review.created_at }}</div>
-            <div class="review-text">{{ review.comment }}</div>
           </div>
-          {% endfor %}
         </div>
       </div>
-      </div>
-   
-      
-      <div id="myPopup" class="popup">
-        <div class="popup-content">
-            <h2>Write a Review</h2>
-            <form action="" method="post" id="reviewForm">
-                {% csrf_token %}
-                {{ reviewForm.as_div }}
-                <button type="submit" class="btn btn-danger">Submit</button>
-            </form>
-            <button class="close-btn" id="closePopup">Cancel</button>
-        </div>
-    </div>
-
-  
-
-      <script>
-        // Show more reviews functionality
-        const moreReviewsBtn = document.getElementById("more-reviews-btn");
-        if (moreReviewsBtn) {
-          moreReviewsBtn.addEventListener("click", function () {
-            const additionalReviews = document.querySelectorAll(".additional-review");
-            additionalReviews.forEach((review) => (review.style.display = "block"));
-            this.style.display = "none";
-          });
-        }
-      
-        // Get the popup and buttons
-        var modal = document.getElementById("myModal");
-        var openModalButton = document.getElementById("openModal");
-        var closeButton = document.getElementsByClassName("close-button")[0];
-      
-        openModalButton.onclick = function () {
-          modal.style.display = "block";
-        };
-      
-        closeButton.onclick = function () {
-          modal.style.display = "none";
-        };
-      
-        window.onclick = function (event) {
-          if (event.target == modal) {
-            modal.style.display = "none";
-          }
-        };
-      
-        const popup = document.getElementById("myPopup");
-        const showPopupBtn = document.getElementById("showPopup");
-        const closeBtn = document.getElementById("closePopup");
-        const reviewForm = document.getElementById("reviewForm");
-      
-        // When the user clicks the "Leave a Review" button, open the popup
-        showPopupBtn.onclick = function () {
-          popup.style.display = "block";
-        };
-      
-        // When the user clicks on the "Cancel" button, close the popup without submitting
-        closeBtn.onclick = function (event) {
-          event.preventDefault(); // Prevent any form submission or unwanted actions
-          popup.style.display = "none";
-          reviewForm.reset(); // Clear the form for next use
-        };
-      
-        // Close the popup when clicking outside of the popup content
-        window.onclick = function (event) {
-          if (event.target === popup) {
-            popup.style.display = "none";
-          }
-        };
-      
-        // Clear the form after submission
-        reviewForm.onsubmit = function () {
-          setTimeout(() => {
-            popup.style.display = "none"; // Close popup after submission
-            reviewForm.reset(); // Reset the form for the next time it's opened
-          }, 0);
-        };
-      </script>
     </div>
   </div>
 </div>
 
-{% endfor %} {% endblock content %}
+<!-- Modal for all reviews -->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button">&times;</span>
+    {% for review in Reviews %}
+    <div class="review-card">
+      {% if review.rating >= 5 %}
+      <h6>⭐⭐⭐⭐⭐</h6>
+      {% elif review.rating >= 4 %}
+      <h6>⭐⭐⭐⭐</h6>
+      {% elif review.rating >= 3 %}
+      <h6>⭐⭐⭐</h6>
+      {% elif review.rating >= 2 %}
+      <h6>⭐⭐</h6>
+      {% elif review.rating %} ⭐ {% else %}
+      <h6>No Rating</h6>
+      {% endif %}
+      <div class="reviewer-name">{{ review.rating }}</div>
+      <div class="reviewer-name">{{ review.reviewer_name|title }}</div>
+      <div class="review-date">{{ review.created_at }}</div>
+      <div class="review-text">{{ review.comment }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Review popup form -->
+<div id="myPopup" class="popup">
+  <div class="popup-content">
+    <h2>Write a Review</h2>
+    <form action="" method="post" id="reviewForm">
+      {% csrf_token %}
+      {{ reviewForm.as_div }}
+      <button type="submit" class="btn btn-danger">Submit</button>
+    </form>
+    <button class="close-btn" id="closePopup">Cancel</button>
+  </div>
+</div>
+{% endfor %}
+
+<script>
+  // Modal handling
+  const modal = document.getElementById("myModal");
+  const openModalButton = document.getElementById("openModal");
+  const closeButton = document.getElementsByClassName("close-button")[0];
+  const popup = document.getElementById("myPopup");
+  const showPopupBtn = document.getElementById("showPopup");
+  const closeBtn = document.getElementById("closePopup");
+  const reviewForm = document.getElementById("reviewForm");
+
+  // Modal open/close
+  if (openModalButton) {
+    openModalButton.onclick = function() {
+      modal.style.display = "block";
+    };
+  }
+
+  if (closeButton) {
+    closeButton.onclick = function() {
+      modal.style.display = "none";
+    };
+  }
+
+  // Popup open/close
+  if (showPopupBtn) {
+    showPopupBtn.onclick = function() {
+      popup.style.display = "block";
+    };
+  }
+
+  if (closeBtn) {
+    closeBtn.onclick = function(event) {
+      event.preventDefault();
+      popup.style.display = "none";
+      reviewForm.reset();
+    };
+  }
+
+  // Close on outside click
+  window.onclick = function(event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+    if (event.target === popup) {
+      popup.style.display = "none";
+    }
+  };
+
+  // Form submission
+  if (reviewForm) {
+    reviewForm.onsubmit = function() {
+      setTimeout(function() {
+        popup.style.display = "none";
+        reviewForm.reset();
+      }, 0);
+    };
+  }
+</script>
+{% endblock content %}

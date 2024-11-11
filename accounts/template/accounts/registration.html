@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 {% extends 'base.html' %} {% block content %}
 
-<link
-  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
-  rel="stylesheet"
-/>
+
 <link
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   rel="stylesheet"
 />
 <style>
   body {
-    background: linear-gradient(135deg, #fbe9e7 0%, #ffccbc 100%);
     min-height: 100vh;
   }
   .role-btn {
@@ -43,13 +39,13 @@
   .role-btn.active {
     transform: scale(1.05);
   }
-  .form-control {
+  .form-control-create-account {
     border: 2px solid #eee;
     padding: 12px;
     border-radius: 8px;
     transition: all 0.3s;
   }
-  .form-control:focus {
+  .form-control-create-account:focus {
     border-color: #ff5722;
     box-shadow: 0 0 0 0.2rem rgba(255, 87, 34, 0.15);
   }
@@ -193,7 +189,7 @@
                   <input
                     type="text"
                     name="username"
-                    class="form-control"
+                    class="form-control form-control-create-account"
                     id="username"
                     placeholder="Enter your username"
                     required
@@ -213,7 +209,7 @@
                   <input
                     type="email"
                     name="email"
-                    class="form-control"
+                    class="form-control form-control-create-account"
                     id="email"
                     placeholder="Enter your email"
                     required
@@ -233,7 +229,7 @@
                   <input
                     type="password"
                     name="password1"
-                    class="form-control"
+                    class="form-control form-control-create-account"
                     id="password"
                     placeholder="Enter your password"
                     required
@@ -254,7 +250,7 @@
                   <input
                     type="password"
                     name="password2"
-                    class="form-control"
+                    class="form-control form-control-create-account"
                     id="confirmPassword"
                     placeholder="Confirm your password"
                     required

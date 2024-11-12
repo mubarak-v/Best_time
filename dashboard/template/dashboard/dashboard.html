@@ -90,24 +90,20 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Total Products</h5>
-          <p class="card-text">1,240</p>
+          <p class="card-text">  {{products_count}} </p>
           <p class="card-text">All Categories</p>
           <div class="d-flex justify-content-between">
             <div>
               <p class="card-text">Category</p>
-              <p class="card-text">Electronics</p>
             </div>
             <div>
-              <p class="card-text">500</p>
+              <p class="card-text"> 1</p>
             </div>
           </div>
           <div class="d-flex justify-content-between">
             <div>
-              <p class="card-text">Primary</p>
             </div>
-            <div>
-              <p class="card-text">Next &gt;</p>
-            </div>
+            
           </div>
         </div>
       </div>
@@ -172,28 +168,24 @@
           <h5 class="card-title">Recent Orders</h5>
           <div class="d-flex justify-content-between">
             <div>
-              <p class="card-text">Order #12347</p>
-              <p class="card-text">Order #12348</p>
-              <p class="card-text">Order #12349</p>
-              <p class="card-text">Order #12350</p>
-              <p class="card-text">Order #12351</p>
+              {% for order in orders  %}
+              <p class="card-text">Order  {{order.order_id}} </p>
+
+              {% endfor %}
+         
             </div>
             <div>
-              <p class="card-text">$160.00</p>
-              <p class="card-text">$80.00</p>
-              <p class="card-text">$10.00</p>
-              <p class="card-text">$20.00</p>
-              <p class="card-text">$50.00</p>
+              {% for order in orders   %}
+              {% for item in order.order_items.all  %}
+              <p class="card-text"> {{item.total_price}} </p>
+
+              {% endfor %}
+                
+              {% endfor %}
+              
             </div>
           </div>
-          <div class="d-flex justify-content-between">
-            <div>
-              <p class="card-text">Revenue</p>
-            </div>
-            <div>
-              <p class="card-text">Expenses</p>
-            </div>
-          </div>
+         
         </div>
       </div>
     </div>

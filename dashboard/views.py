@@ -9,7 +9,22 @@ from product.models import OrderDetails, OrderItem, Product
 
 
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    seller = request.user.seller  
+
+    orders = (
+        OrderDetails.objects
+        .filter(order_items__product__seller=seller)
+        .prefetch_related('order_items')  
+        .distinct().order_by('-created_at')[:5]
+    )
+
+    products_count = Product.objects.filter(seller=seller).count
+    context = {
+        'products_count':products_count,
+        'orders':orders
+    }
+
+    return render(request, 'dashboard.html',context)
 
 
 def is_seller(user):

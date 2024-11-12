@@ -1,246 +1,305 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Best Time - Home</title>
-    
+
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <!-- Bootstrap Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200..1000&family=Poppins:wght@100..900&display=swap" rel="stylesheet">
-    
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@200..1000&family=Poppins:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
       .navbar-toggler {
         /* Custom styles for the hamburger button */
         border: 2px solid #ee4d2d !important;
         padding: 0.5rem;
         border-radius: 8px;
-    }
-
-    .navbar-toggler-icon {
-        /* Custom hamburger icon color */
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23ee4d2d' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
-    }
-
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-content {
-            flex: 1;
-        }
-
-        /* Navbar Styles */
-        .navbar {
-            background-color: white;
-            padding: 0.5rem 1rem;
-        }
-
-        .navbar-brand {
-            font-weight: bold;
-            color: #ee4d2d !important;
-        }
-
-        .search-container {
-            background-color: #f5f5f5;
-            border-radius: 15px;
-            max-width: 600px;
-            width: 100%;
-            height: 45px;
-        }
-
-        .search-input {
-            background-color: #f5f5f5;
-            border: none;
-            height: 40px;
-        }
-
-        .search-input:focus {
-            background-color: #f5f5f5;
-            border-color: transparent !important;
-            box-shadow: none !important;
-            outline: none !important;
-        }
-
-        .search-button {
-            background-color: #ee4d2d;
-            color: white;
-            border: none;
-            border-radius: 15px;
-            height: 45px;
-            width: 85px;
-            font-family: "Nunito", sans-serif;
-            font-weight: 800;
-        }
-
-        .user-name-drop-dwon-list-btn {
-            background-color: #d8d8d8 !important;
-            border-radius: 15px;
-            border: none !important;
-            box-shadow: none !important;
-            height: 45px;
-            min-width: 100px;
-        }
-
-        /* Dropdown Styles */
-        .profile-dropdown .dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .profile-dropdown .icon-badge {
-            background-color: #ff3b3b;
-            color: white;
-            border-radius: 50%;
-            padding: 2px 6px;
-            font-size: 12px;
-        }
-
-        /* Footer Styles */
-        .footer {
-            background-color: #f8f9fa;
-            padding: 20px 0;
-            margin-top: auto;
-        }
-
-        .footer-link {
-            color: #333;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-
-        .footer-link:hover {
-            text-decoration: underline;
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 992px) {
-            .search-container {
-                margin: 1rem 0;
-                max-width: 100%;
-            }
-
-            .navbar-nav {
-                margin: 1rem 0;
-            }
-
-            .profile-dropdown {
-                margin: 1rem 0;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .navbar-brand {
-                font-size: 1.2rem;
-            }
-
-            .search-button {
-                width: 70px;
-                font-size: 0.9rem;
-            }
-        }
-        .navbar-toggler {
-          /* Custom styles for the hamburger button */
-          border: 2px solid #ee4d2d !important;
-          padding: 0.5rem;
-          border-radius: 8px;
       }
 
       .navbar-toggler-icon {
-          /* Custom hamburger icon color */
-          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23ee4d2d' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+        /* Custom hamburger icon color */
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23ee4d2d' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
       }
 
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .main-content {
+        flex: 1;
+      }
+
+      /* Navbar Styles */
+      .navbar {
+        background-color: white;
+        padding: 0.5rem 1rem;
+      }
+
+      .navbar-brand {
+        font-weight: bold;
+        color: #ee4d2d !important;
+      }
+
+      .search-container {
+        background-color: #f5f5f5;
+        border-radius: 15px;
+        max-width: 600px;
+        width: 100%;
+        height: 45px;
+      }
+
+      .search-input {
+        background-color: #f5f5f5;
+        border: none;
+        height: 40px;
+      }
+
+      .search-input:focus {
+        background-color: #f5f5f5;
+        border-color: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+      }
+
+      .search-button {
+        background-color: #ee4d2d;
+        color: white;
+        border: none;
+        border-radius: 15px;
+        height: 45px;
+        width: 85px;
+        font-family: "Nunito", sans-serif;
+        font-weight: 800;
+      }
+
+      .user-name-drop-dwon-list-btn {
+        background-color: #d8d8d8 !important;
+        border-radius: 15px;
+        border: none !important;
+        box-shadow: none !important;
+        height: 45px;
+        min-width: 100px;
+      }
+
+      /* Dropdown Styles */
+      .profile-dropdown .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .profile-dropdown .icon-badge {
+        background-color: #ff3b3b;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 12px;
+      }
+
+      /* Footer Styles */
+      .footer {
+        background-color: #f8f9fa;
+        padding: 20px 0;
+        margin-top: auto;
+      }
+
+      .footer-link {
+        color: #333;
+        text-decoration: none;
+        margin: 0 10px;
+      }
+
+      .footer-link:hover {
+        text-decoration: underline;
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 992px) {
+        .search-container {
+          margin: 1rem 0;
+          max-width: 100%;
+        }
+
+        .navbar-nav {
+          margin: 1rem 0;
+        }
+
+        .profile-dropdown {
+          margin: 1rem 0;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .navbar-brand {
+          font-size: 1.2rem;
+        }
+
+        .search-button {
+          width: 70px;
+          font-size: 0.9rem;
+        }
+      }
+      .navbar-toggler {
+        /* Custom styles for the hamburger button */
+        border: 2px solid #ee4d2d !important;
+        padding: 0.5rem;
+        border-radius: 8px;
+      }
+
+      .navbar-toggler-icon {
+        /* Custom hamburger icon color */
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23ee4d2d' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+      }
     </style>
-    
-</head>
-<body>
+  </head>
+  <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg border-bottom">
-        <div class="container-fluid">
-            <!-- Logo -->
-            <a class="navbar-brand" href="/">Best Time</a>
+      <div class="container-fluid">
+        <!-- Logo -->
+        <a class="navbar-brand" href="/">Best Time</a>
 
-            <!-- Hamburger Menu -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <span class="navbar-toggler-icon"></span>
+        <!-- Hamburger Menu -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <!-- Navigation Links -->
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href=" {% url 'dashboard' %}"> Dashboard </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href=" {% url 'dashboard_products' %}">
+                Products
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'dashboard_orders' %}">
+                Orders
+              </a>
+            </li>
+          </ul>
+
+          <!-- Search Bar -->
+          <div class="search-container d-flex align-items-center px-3">
+            <input
+              type="text"
+              class="form-control search-input"
+              placeholder="Watches"
+            />
+            <button class="search-button ms-2" type="button">Search</button>
+          </div>
+
+          <!-- Profile Dropdown -->
+          <div class="dropdown profile-dropdown ms-lg-3">
+            {% if request.user.is_authenticated %}
+            <button
+              class="user-name-drop-dwon-list-btn dropdown-toggle d-flex align-items-center justify-content-center"
+              type="button"
+              data-bs-toggle="dropdown"
+            >
+              <span>{{ request.user.username|capfirst }}</span>
             </button>
-
-            <!-- Navbar Content -->
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <!-- Navigation Links -->
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href=" {% url 'dashboard' %}"> Dashboard </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'dashboard_orders' %}"> Orders </a>
-                    </li>
-                </ul>
-
-                <!-- Search Bar -->
-                <div class="search-container d-flex align-items-center px-3">
-                    <input type="text" class="form-control search-input" placeholder="Watches">
-                    <button class="search-button ms-2" type="button">Search</button>
-                </div>
-
-                <!-- Profile Dropdown -->
-                <div class="dropdown profile-dropdown ms-lg-3">
-                    {% if request.user.is_authenticated %}
-                    <button class="user-name-drop-dwon-list-btn dropdown-toggle d-flex align-items-center justify-content-center" type="button" data-bs-toggle="dropdown">
-                        <span>{{ request.user.username|capfirst }}</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> My Profile</a></li>
-                        <li><a class="dropdown-item" href="{% url 'cart_view' %}"><i class="bi bi-cart"></i> My Cart <span class="icon-badge">9+</span></a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-envelope"></i> Messages <span class="icon-badge">9+</span></a></li>
-                        <li>
-                            <form action="{% url 'logout' %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" class="dropdown-item"><i class="bi bi-gear"></i> Logout</button>
-                            </form>
-                        </li>
-                    </ul>
-                    {% else %}
-                    <button class="user-name-drop-dwon-list-btn dropdown-toggle d-flex align-items-center justify-content-center" type="button" data-bs-toggle="dropdown">
-                        <span>Login</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="/account/login/?user_type=buyer"><i class="bi bi-person"></i> Login</a></li>
-                        <li><a class="dropdown-item" href="/account/registration/?user_type=buyer"><i class="bi bi-cart"></i> Register</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-envelope"></i> Messages <span class="icon-badge">9+</span></a></li>
-                    </ul>
-                    {% endif %}
-                </div>
-            </div>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><i class="bi bi-person"></i> My Profile</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'cart_view' %}"
+                  ><i class="bi bi-cart"></i> My Cart
+                  <span class="icon-badge">9+</span></a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><i class="bi bi-envelope"></i> Messages
+                  <span class="icon-badge">9+</span></a
+                >
+              </li>
+              <li>
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="dropdown-item">
+                    <i class="bi bi-gear"></i> Logout
+                  </button>
+                </form>
+              </li>
+            </ul>
+            {% else %}
+            <button
+              class="user-name-drop-dwon-list-btn dropdown-toggle d-flex align-items-center justify-content-center"
+              type="button"
+              data-bs-toggle="dropdown"
+            >
+              <span>Login</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a class="dropdown-item" href="/account/login/?user_type=buyer"
+                  ><i class="bi bi-person"></i> Login</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="/account/registration/?user_type=buyer"
+                  ><i class="bi bi-cart"></i> Register</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><i class="bi bi-envelope"></i> Messages
+                  <span class="icon-badge">9+</span></a
+                >
+              </li>
+            </ul>
+            {% endif %}
+          </div>
         </div>
+      </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="main-content">
-        {% block content %}
-        {% endblock content %}
-    </main>
+    <main class="main-content">{% block content %} {% endblock content %}</main>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container text-center">
-            <p class="mb-2">&copy; 2024 Best Time. All rights reserved.</p>
-            <div>
-                <a href="/about/" class="footer-link">About</a>
-                <a href="#" class="footer-link">Terms of Service</a>
-                <a href="/contact/" class="footer-link">Contact Us</a>
-            </div>
+      <div class="container text-center">
+        <p class="mb-2">&copy; 2024 Best Time. All rights reserved.</p>
+        <div>
+          <a href="/about/" class="footer-link">About</a>
+          <a href="#" class="footer-link">Terms of Service</a>
+          <a href="/contact/" class="footer-link">Contact Us</a>
         </div>
+      </div>
     </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+  </body>
 </html>

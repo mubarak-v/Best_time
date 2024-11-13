@@ -2,7 +2,6 @@
 
 {% extends 'dashboard_base.html' %} {% block content %}
 
-
 <style>
   body {
     font-family: "Arial", sans-serif;
@@ -84,40 +83,37 @@
 </style>
 
 <div class="content">
-
   <div class="row">
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Total Products</h5>
-          <p class="card-text">  {{products_count}} </p>
+          <p class="card-text">{{products_count}}</p>
           <p class="card-text">All Categories</p>
           <div class="d-flex justify-content-between">
             <div>
               <p class="card-text">Category</p>
             </div>
             <div>
-              <p class="card-text"> 1</p>
+              <p class="card-text">1</p>
             </div>
           </div>
           <div class="d-flex justify-content-between">
-            <div>
-            </div>
-            
+            <div></div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div style="opacity: 0.4" class="col-md-4">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Sales Goals</h5>
-          <p class="card-text">$50,000</p>
+          <p class="card-text">50,000</p>
           <p class="card-text">May, 2023</p>
           <div class="d-flex justify-content-between">
             <div>
               <p class="card-text">Target</p>
-              <p class="card-text">$30,000</p>
+              <p class="card-text">30,000</p>
             </div>
             <div>
               <p class="card-text">Achieved</p>
@@ -135,7 +131,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div style="opacity: 0.4" class="col-md-4">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Upcoming Orders</h5>
@@ -145,7 +141,7 @@
               <p class="card-text">Order #12345</p>
             </div>
             <div>
-              <p class="card-text">$150</p>
+              <p class="card-text">150</p>
             </div>
           </div>
           <div class="d-flex justify-content-between">
@@ -154,7 +150,7 @@
               <p class="card-text">Order #12346</p>
             </div>
             <div>
-              <p class="card-text">$559</p>
+              <p class="card-text">559</p>
             </div>
           </div>
         </div>
@@ -168,28 +164,22 @@
           <h5 class="card-title">Recent Orders</h5>
           <div class="d-flex justify-content-between">
             <div>
-              {% for order in orders  %}
-              <p class="card-text">Order  {{order.order_id}} </p>
+              {% for order in orders %}
+              <p class="card-text">Order {{order.order_id}}</p>
 
               {% endfor %}
-         
             </div>
             <div>
-              {% for order in orders   %}
-              {% for item in order.order_items.all  %}
-              <p class="card-text"> {{item.total_price}} </p>
+              {% for order in orders %} {% for item in order.order_items.all %}
+              <p class="card-text">{{item.total_price}}</p>
 
-              {% endfor %}
-                
-              {% endfor %}
-              
+              {% endfor %} {% endfor %}
             </div>
           </div>
-         
         </div>
       </div>
     </div>
-    <div class="col-md-6">
+    <div style="opacity: 0.4" class="col-md-6">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Sales Statistics</h5>
@@ -213,20 +203,19 @@
               <p class="card-text">Sun</p>
             </div>
             <div>
-              <p class="card-text">$25K</p>
-              <p class="card-text">$20K</p>
-              <p class="card-text">$30K</p>
-              <p class="card-text">$27K</p>
-              <p class="card-text">$35K</p>
-              <p class="card-text">$22K</p>
-              <p class="card-text">$31K</p>
+              <p class="card-text">25K</p>
+              <p class="card-text">20K</p>
+              <p class="card-text">30K</p>
+              <p class="card-text">27K</p>
+              <p class="card-text">35K</p>
+              <p class="card-text">22K</p>
+              <p class="card-text">31K</p>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
- 
 </div>
 
 {% endblock content %}

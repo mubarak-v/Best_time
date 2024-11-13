@@ -52,89 +52,7 @@ def product_details(request,pk):
     }
     return render(request, "product_details.html", context)
 
-def is_seller(user):
-    return user.groups.filter(name='Sellers').exists()
 
-@login_required
-@user_passes_test(is_seller,login_url='/account/login_as_seller')
-def product_dashboard(request):
-    seller = request.user.seller
-    order_items = OrderItem.objects.filter(product__seller=seller).select_related('order', 'product')
-
-    orders = {}
-    for item in order_items:
-        order_id = item.order.order_id
-        if order_id not in orders:
-            orders[order_id] = {
-                'order_id': order_id,
-                'buyer': item.order.user,
-                'created_at': item.order.created_at,
-                'items': [],
-            }
-        orders[order_id]['items'].append(item)
-    try:
-        seller_instance = Seller.objects.get(user=request.user)
-    except Seller.DoesNotExist:
-        return redirect('/account/login_as_seller') 
-    user_products = Product.objects.filter(seller=seller_instance)
-
-    form = ProductForm(request.POST,request.FILES)
-
-    if request.method == 'POST':
-        if form.is_valid():
-            products = form.save(commit=False)
-            products.seller = request.user.seller
-            products.save()
-
-            return redirect('dashboard')
-    context = {
-        'form': form,
-        'user_products':user_products,
-        'orders':orders
-            }
-
-    return render(request, "product_dashboard.html",context)
-    
-@login_required
-@user_passes_test(is_seller,login_url='/account/login_as_seller')
-def edit_product(request, product_id):
-    product_by_id  = get_object_or_404(Product, product_id = product_id,seller__user = request.user)
-    form = ProductForm(request.POST or None, request.FILES or None,instance=product_by_id)
-    if request.method == 'POST':
-        if form.is_valid():
-            product_by_id.save()
-            return redirect('dashboard')
-        
-    return render(request, 'edit_product.html',{'form':form,'product':product_by_id})
-
-
-@login_required
-@user_passes_test(is_seller, login_url='/account/login_as_seller')
-def add_product(request):
-    print("View is called")  # Debugging line
-    if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES)
-        if form.is_valid():
-            product = form.save(commit=False)
-            product.seller = request.user.seller
-            product.save()
-            return redirect('dashboard')
-    else:
-        form = ProductForm()
-
-    return render(request, 'add_product.html', {'form': form})
-
-
-@login_required
-@user_passes_test(is_seller, login_url='/account/login_as_seller')
-def delete_product(request, product_id):
-    product = get_object_or_404(Product, product_id=product_id, seller__user=request.user)
-    
-    if request.method == 'POST':
-        product.delete()
-        return redirect('dashboard')  
-
-    return redirect('dashboard')
 def cart_view(request):
     if not request.user.is_authenticated:
         return redirect('/account/login')
@@ -159,7 +77,6 @@ def cart_view(request):
     }
 
     return render(request, 'cart.html', context)
-
 
 
 

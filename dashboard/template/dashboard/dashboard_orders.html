@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+{% extends 'dashboard_base.html' %} {% block content %}
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  rel="stylesheet"
+/>
+<style>
+  body {
+    font-family: "Arial", sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+  }
+  .content {
+    padding: 20px;
+  }
+  .card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  .card-header {
+    background-color: transparent;
+    border-bottom: none;
+  }
+  .card-body {
+    padding: 20px;
+  }
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  .card-text {
+    font-size: 1rem;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .header h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  .header .date {
+    font-size: 0.875rem;
+    color: #888;
+  }
+  .header .search-bar {
+    display: flex;
+    align-items: center;
+  }
+  .header .search-bar input {
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin-right: 10px;
+  }
+  .header .search-bar i {
+    color: #888;
+  }
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  .footer .user-info {
+    display: flex;
+    align-items: center;
+  }
+  .footer .user-info img {
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .footer .user-info .name {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  .footer .user-info .view-profile {
+    font-size: 0.875rem;
+    color: #00bfa6;
+  }
+  .table .order-th,
+  .table .order-td {
+    vertical-align: middle;
+    height: 50px;
+  }
+</style>
+
+<div class="content">
+  <div class="d-flex justify-content-between mb-3">
+    <h2>Orders</h2>
+    <button class="btn btn-primary">Add New Order</button>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="order-th" scope="col">Order ID</th>
+          <th class="order-th" scope="col">Customer</th>
+          <th class="order-th" scope="col">Address</th>
+          <th class="order-th" scope="col">Phone Number</th>
+          <th class="order-th" scope="col">Ordered Product</th>
+          <th class="order-th" scope="col">Quantity</th>
+          <th class="order-th" scope="col">Status</th>
+          <th class="order-th" scope="col">Total Price</th>
+          <th class="order-th" scope="col">Updated at</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %} {% for item in order.order_items.all %}
+        <tr>
+          <td class="order-td">{{order.order_id}}</td>
+          <td class="order-td">{{item.full_name}}</td>
+          <td class="order-td">{{item.address }}</td>
+          <td class="order-td">{{item.mobile_number}}</td>
+          <td class="order-td">{{item.product_name}}</td>
+          <td class="order-td">{{item.quantity}}</td>
+          <td class="order-td">null</td>
+          <td class="order-td">{{item.total_price}}</td>
+          <td class="order-td">{{order.created_at}}</td>
+        </tr>
+
+        {% endfor %} {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock content %}

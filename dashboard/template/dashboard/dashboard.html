@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+{% extends 'dashboard_base.html' %} {% block content %}
+
+<style>
+  body {
+    font-family: "Arial", sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+  }
+  .content {
+    padding: 20px;
+  }
+  .card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  .card-header {
+    background-color: transparent;
+    border-bottom: none;
+  }
+  .card-body {
+    padding: 20px;
+  }
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  .card-text {
+    font-size: 1rem;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .header h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  .header .date {
+    font-size: 0.875rem;
+    color: #888;
+  }
+  .header .search-bar {
+    display: flex;
+    align-items: center;
+  }
+  .header .search-bar input {
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin-right: 10px;
+  }
+  .header .search-bar i {
+    color: #888;
+  }
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  .footer .user-info {
+    display: flex;
+    align-items: center;
+  }
+  .footer .user-info img {
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .footer .user-info .name {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  .footer .user-info .view-profile {
+    font-size: 0.875rem;
+    color: #00bfa6;
+  }
+</style>
+
+<div class="content">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Total Products</h5>
+          <p class="card-text">{{products_count}}</p>
+          <p class="card-text">All Categories</p>
+          <div class="d-flex justify-content-between">
+            <div>
+              <p class="card-text">Category</p>
+            </div>
+            <div>
+              <p class="card-text">1</p>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between">
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="opacity: 0.4" class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Sales Goals</h5>
+          <p class="card-text">50,000</p>
+          <p class="card-text">May, 2023</p>
+          <div class="d-flex justify-content-between">
+            <div>
+              <p class="card-text">Target</p>
+              <p class="card-text">30,000</p>
+            </div>
+            <div>
+              <p class="card-text">Achieved</p>
+              <p class="card-text">$25K</p>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between">
+            <div>
+              <p class="card-text">Target in Achievement</p>
+            </div>
+            <div>
+              <p class="card-text">$50,000</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="opacity: 0.4" class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Upcoming Orders</h5>
+          <div class="d-flex justify-content-between">
+            <div>
+              <p class="card-text">15</p>
+              <p class="card-text">Order #12345</p>
+            </div>
+            <div>
+              <p class="card-text">150</p>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between">
+            <div>
+              <p class="card-text">16</p>
+              <p class="card-text">Order #12346</p>
+            </div>
+            <div>
+              <p class="card-text">559</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Recent Orders</h5>
+          <div class="d-flex justify-content-between">
+            <div>
+              {% for order in orders %}
+              <p class="card-text">Order {{order.order_id}}</p>
+
+              {% endfor %}
+            </div>
+            <div>
+              {% for order in orders %} {% for item in order.order_items.all %}
+              <p class="card-text">{{item.total_price}}</p>
+
+              {% endfor %} {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="opacity: 0.4" class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Sales Statistics</h5>
+          <div class="d-flex justify-content-between">
+            <div>
+              <p class="card-text">Weekly Comparison</p>
+            </div>
+            <div>
+              <p class="card-text">This week</p>
+              <p class="card-text">Last week</p>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between">
+            <div>
+              <p class="card-text">Mon</p>
+              <p class="card-text">Tue</p>
+              <p class="card-text">Wed</p>
+              <p class="card-text">Thu</p>
+              <p class="card-text">Fri</p>
+              <p class="card-text">Sat</p>
+              <p class="card-text">Sun</p>
+            </div>
+            <div>
+              <p class="card-text">25K</p>
+              <p class="card-text">20K</p>
+              <p class="card-text">30K</p>
+              <p class="card-text">27K</p>
+              <p class="card-text">35K</p>
+              <p class="card-text">22K</p>
+              <p class="card-text">31K</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
